@@ -1,5 +1,5 @@
 <template>
-  <nav class="w-64 bg-gray-800 text-white h-screen p-4">
+  <nav class="w-64 bg-gray-800 text-white h-auto p-4">
     <ul class="space-y-4">
       <li v-for="item in items" :key="item.name">
         <router-link :to="item.route" class="block p-2 rounded hover:bg-gray-700 transition duration-300">
