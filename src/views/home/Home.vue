@@ -1,10 +1,11 @@
-<template>
+<template>  
   <div class="h-full flex flex-col bg-gray-100">
-    <div class="bg-slate-200 min-h-[800px]">
-      home-work
+    <!-- Full-space image -->
+    <div class="bg-slate-200 h-[800px] w-full flex items-center justify-center">
+      <img src="@/assets/background.png" alt="Cloth background" class="w-full h-full object-cover">
     </div>
-    <div class="w-full h-full flex">
 
+    <div class="w-full h-full flex">
       <SideNav />
       <div class="flex-1 flex items-center justify-center">
         <router-view />
