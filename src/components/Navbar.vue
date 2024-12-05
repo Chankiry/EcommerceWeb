@@ -1,8 +1,10 @@
 <template>
-  <nav class="bg-blue-500 p-4">
+  <nav class="bg-stone-500 p-4">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Logo and Brand Name -->
-      <router-link to="/" class="text-white text-2xl font-bold">E-Commerce</router-link>
+      <!-- Logo -->
+      <router-link to="/" class="flex items-center">
+        <img src="@/assets/LOGO2.png" alt="E-Commerce Logo" class="h-10">
+        </router-link>
 
       <!-- Navigation Links -->
       <ul class="flex space-x-4">
@@ -14,7 +16,7 @@
         </router-link></li>
       </ul>
 
-      <!-- User Authentication Links -->
+      <!-- Authentication Links -->
       <ul class="flex space-x-4">
         <li><router-link to="/account/profile" class="text-white hover:text-gray-300">Profile</router-link></li>
         <li v-if="!isAuthenticated"><router-link to="/auth/login" class="text-white hover:text-gray-300">Login</router-link></li>
@@ -30,27 +32,24 @@ export default {
   name: 'Navbar',
   data() {
     return {
-      searchQuery: '',
-      cartItemsCount: 0, // This should be dynamically updated
-      isAuthenticated: false // This should be managed by Vuex or a similar state management solution
+      cartItemsCount: 0,
+      isAuthenticated: false,
+     
     };
   },
   methods: {
     logout() {
-      // Implement logout functionality
       this.isAuthenticated = false;
-      // Clear any local storage or session data
       localStorage.removeItem('user');
-      this.$router.push('/login');
-    }
+      this.$router.push('/auth/login');
+    },
   },
   created() {
-    // Check if the user is authenticated on component creation
     this.isAuthenticated = !!localStorage.getItem('user');
-  }
+  },
 };
 </script>
 
 <style scoped>
-/* Add any additional styles if needed */
+/* Additional styling can go here */
 </style>
