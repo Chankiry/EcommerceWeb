@@ -4,6 +4,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import App from './App.vue'
 import router from './router'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 import './Style.css' // Ensure this points to your Tailwind CSS file
 
