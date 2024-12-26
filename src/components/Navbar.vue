@@ -16,6 +16,7 @@
           
           <span v-if="cartItemsCount > 0" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartItemsCount }}</span>
         </router-link></li>
+        <li><router-link to="/history" class="text-white hover:text-gray-300 font-mono">History</router-link></li>
       </ul>
 
       <!-- Authentication Links -->
