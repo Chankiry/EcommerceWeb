@@ -13,6 +13,7 @@ const routes = [
       { path: 'hand-bags', component: () => import('../views/home/products/HandBags.vue') },
       { path: 'Wallets', component: () => import('../views/home/products/Wallets.vue') },
       { path: 'clothes', component: () => import('../views/home/products/Clothes.vue') },
+      { path: 'view-product', component: () => import('../views/home/products/view_product/ViewProduct.vue') },
     ]
   },
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: () => import('../views/cart/Cart.vue')
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: () => import('../views/history/History.vue')
   },
   {
     path: '/account/profile',

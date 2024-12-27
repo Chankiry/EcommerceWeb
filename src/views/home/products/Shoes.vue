@@ -45,7 +45,7 @@
     <div
       class="min-h-screen grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
-      <div
+      <router-link :to="'view-product'"
         class="w-[18rem] max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="shoes in shoess"
         :key="shoes.image"
@@ -84,7 +84,7 @@
             {{ shoes.discount || "--" }}
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
     <div class="py-10 px-4 button">
       <button
