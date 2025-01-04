@@ -1,8 +1,22 @@
-<template>  
+<template>
   <div class="h-full flex flex-col bg-gray-100">
-    <!-- Full-space image -->
-    <div class="bg-slate-200 h-[800px] w-full flex items-center justify-center">
-      <img src="@/assets/background.png" alt="Cloth background" class="w-full h-full object-cover">
+    <!-- Full-space image slider -->
+    <div class="slider-container bg-slate-200 h-[800px] w-full flex items-center justify-center">
+      <div class="slider" ref="slider">
+        <div class="image-wrapper">
+          <img src="@/assets/background.png" alt="Cloth background" class="slide-image" />
+        </div>  
+        <div class="image-wrapper">
+          <img src="@/assets/back_cloth.jpg" alt="Cloth background" class="slide-image" />
+        </div>
+        <div class="image-wrapper">
+          <img src="@/assets/hand.jpg" alt="Cloth background" class="slide-image" />
+        </div> 
+        <div class="image-wrapper">
+          <img src="@/assets/wallet1.jpg" alt="Cloth background" class="slide-image" />
+        </div>
+       
+      </div>
     </div>
 
     <div class="w-full h-full flex">
@@ -20,11 +34,49 @@ import SideNav from '@/components/SideNav.vue';
 export default {
   name: 'Home',
   components: {
-    SideNav
-  }
-}
+    SideNav,
+  },
+  data() {
+    return {
+      currentIndex: 0, // Track the current image index
+    };
+  },
+  mounted() {
+    this.startAutoSlide();
+  },
+  methods: {
+    startAutoSlide() {
+      setInterval(() => {
+        const slider = this.$refs.slider;
+        this.currentIndex = (this.currentIndex + 1) % 4; // Cycle through 3 images
+        const translateValue = -this.currentIndex * 100; // Move slider by 100% per image
+        slider.style.transform = `translateX(${translateValue}%)`;
+      }, 3000); // Slide every 3 seconds
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Add any additional styles if needed */
+.slider-container {
+  overflow: hidden;
+  width: 100%;
+  height: 800px;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 300%; /* 3 images */
+}
+
+.image-wrapper {
+  flex: 0 0 100%; /* Each image takes 100% of the width */
+}
+
+.slide-image {
+  width: 100%;
+  height: 800px;
+}
 </style>
