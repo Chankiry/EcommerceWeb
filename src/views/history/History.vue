@@ -2,10 +2,11 @@
   <div class="container overflow-y-auto">
     <h1 class="title">Order History</h1>
     <div class="history-list overflow-auto">
-      <div
+      <button
         v-for="historyItem in historyItems"
         :key="historyItem.id"
         class="history-item"
+        @click="handleHistoryItemClick(historyItem, $event)"
       >
         <span class="history-date">Date: {{ formatDate(historyItem.date) }}</span>
         <div
@@ -14,21 +15,23 @@
           class="product-item"
         >
           <!-- Make product-info a router-link -->
-          <router-link
-            :to="{ name: 'ViewProduct', params: { id: product.id } }"
+          <div
             class="product-info"
           >
-            <img
-              :src="product.image"
-              :alt="product.name"
-              class="product-image"
-              loading="lazy"
-            />
+            <router-link
+              :to="{ name: 'ViewProduct', params: { id: product.id } }">
+              <img
+                :src="product.image"
+                :alt="product.name"
+                class="product-image"
+                loading="lazy"
+              />
+            </router-link>
             <div class="product-details">
               <span class="product-name">{{ product.name }}</span>
               <span class="product-size">Size: {{ product.size }}</span>
             </div>
-          </router-link>
+          </div>
           <div class="product-pricing">
             <span class="product-price">{{ formatPrice(product.price) }}</span>
             <span class="product-quantity">x{{ product.quantity }}</span>
@@ -38,14 +41,26 @@
           <span>Total Amount:</span>
           <span class="total-price">{{ formatPrice(historyItem.totalAmount) }}</span>
         </div>
-      </div>
+      </button>
     </div>
+
+    <!-- Receipt Modal -->
+    <ReceiptModal
+      :isVisible="isReceiptModalVisible"
+      :receipt="selectedReceipt"
+      @close="closeReceiptModal"
+    />
   </div>
 </template>
 
 <script>
+import ReceiptModal from './ReceiptModal.vue'; // Import the ReceiptModal component
+
 export default {
   name: 'History',
+  components: {
+    ReceiptModal, // Register the ReceiptModal component
+  },
   data() {
     return {
       historyItems: [
@@ -119,27 +134,49 @@ export default {
           ],
         },
       ],
+      isReceiptModalVisible: false,
+      selectedReceipt: null,
     };
   },
   methods: {
     formatDate(date) {
-      return date.toLocaleString('en-US', {
+      return new Date(date).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        hour12: true, // Use 12-hour format (AM/PM)
+        hour12: true,
       });
     },
     formatPrice(price) {
       return `$${price.toFixed(2)}`;
+    },
+    openReceiptModal(receipt) {
+      this.selectedReceipt = receipt;
+      this.isReceiptModalVisible = true;
+    },
+    closeReceiptModal() {
+      this.isReceiptModalVisible = false;
+      this.selectedReceipt = null;
+    },
+    handleHistoryItemClick(receipt, event) {
+      // Check if the click was on the "View Receipt" button or a router-link
+      if (
+        event.target.classList.contains('view-receipt-button') ||
+        event.target.closest('.product-info')
+      ) {
+        return; // Do nothing if the click was on the button or router-link
+      }
+      // Otherwise, open the receipt modal
+      this.openReceiptModal(receipt);
     },
   },
 };
 </script>
 
 <style scoped>
+
 :root {
   --primary-color: #4f46e5;
   --text-color: #374151;
@@ -215,7 +252,7 @@ export default {
   color: inherit; /* Inherit text color */
 }
 
-.product-info:hover {
+.product-image:hover {
   opacity: 0.8;
 }
 
@@ -275,4 +312,5 @@ export default {
   font-weight: 600;
   color: var(--primary-color);
 }
+
 </style>
