@@ -65,8 +65,7 @@
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    style="width: 40rem; height: 5rem; margin-top: -0.7
-                    rem;margin-left: -17rem;"
+                    style="width: 40rem; height: 5rem; margin-top: -0.8rem;margin-left: -17rem;"
                   >
                     <circle
                       v-for="(color, index) in product.colors"
