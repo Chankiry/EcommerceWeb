@@ -19,7 +19,7 @@
           <label for="password" class="block text-gray-700 font-bold mb-2">Confirm Password</label>
           <input type="password" v-model="password" id="password" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
         </div>
-        <button type="submit" class="w-full bg-blue-500 text-white font-bold py-3 rounded hover:bg-blue-600 transition duration-300">Sign Up</button>
+        <button type="submit" class="w-full bg-stone-500 text-white font-bold py-3 rounded hover:bg-stone-600 transition duration-300">Sign Up</button>
       </form>
       <div class="mt-6 text-center">
         <p class="text-gray-600">Already have an account? <router-link to="/auth/login" class="text-blue-500 hover:underline">Log in</router-link></p>

@@ -18,7 +18,7 @@
             </div>
             <router-link to="/auth/forgot-password" class="text-blue-500 hover:underline">Forgot Password?</router-link>
           </div>
-          <button type="submit" class="w-full bg-blue-500 text-white font-bold py-3 rounded hover:bg-blue-600 transition duration-300">Login</button>
+          <button type="submit" class="w-full bg-stone-500 text-white font-bold py-3 rounded hover:bg-stone-600 transition duration-300">Login</button>
         </form>
         <div class="mt-6 text-center">
           <p class="text-gray-600">Don't have an account? <router-link to="/auth/signup" class="text-blue-500 hover:underline">Sign up</router-link></p>
