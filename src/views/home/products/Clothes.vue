@@ -27,9 +27,10 @@
           </svg>
         </div>
         <input
-          type="search"
+          type="text"
+          v-model="searchQuery"
           id="default-search"
-          class="block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="search-input block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Mockups, Logos..."
           required
         />
@@ -45,10 +46,11 @@
     <div
       class="min-h-screen grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
-      <router-link :to="'view-product'"
+      <router-link
+        :to="'view-product'"
         class="w-[18rem] max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
-        v-for="clothes in clothe"
-        :key="clothes.image"
+        v-for="clothes in clothesItems"
+        :key="clothes.id || clothes.image"
       >
         <a href="#">
           <img
@@ -59,7 +61,7 @@
         </a>
         <div class="px-5 pb-5">
           <a href="#">
-            <h5
+            <h5 
               class="text-lg font-semibold tracking-tight text-gray-900 dark:text-black"
             >
               {{ clothes.name }}
@@ -68,7 +70,7 @@
           <div class="flex items-center justify-between">
             <div class="flex">
               <div class="text-xl font-bold text-gray-900 dark:text-blue-400">
-                ${{ clothes.price_discount }}
+                ${{ clothes.price_discount}}
               </div>
               <span class="text-md text-gray-900 dark:text-gray-500 ml-3">{{
                 clothes.price
@@ -100,26 +102,26 @@
 </template>
 
 <script>
-import cloth01 from "../../../assets/images/cloth01.png";
-import cloth02 from "../../../assets/images/cloth02.png";
-import cloth03 from "../../../assets/images/cloth03.png";
-import cloth04 from "../../../assets/images/cloth04.png";
-import cloth05 from "../../../assets/images/cloth05.png";
-import cloth06 from "../../../assets/images/cloth06.png";
-import cloth07 from "../../../assets/images/cloth07.png";
-import cloth08 from "../../../assets/images/cloth08.png";
-import cloth09 from "../../../assets/images/cloth09.png";
-import cloth010 from "../../../assets/images/cloth010.png";
+import clothes01 from "../../../assets/images/cloth01.png";
+import clothes02 from "../../../assets/images/cloth02.png";
+import clothes03 from "../../../assets/images/cloth03.png";
+import clothes04 from "../../../assets/images/cloth04.png";
+import clothes05 from "../../../assets/images/cloth05.png";
+import clothes06 from "../../../assets/images/cloth06.png";
+import clothes07 from "../../../assets/images/cloth07.png";
+import clothes08 from "../../../assets/images/cloth08.png";
+import clothes09 from "../../../assets/images/cloth09.png";
+import clothes010 from "../../../assets/images/cloth010.png";
 import { ref, onMounted } from "vue";
 
 export default {
   name: "Clothes",
-  // prope: ["Clothes"],
   data() {
     return {
+      searchQuery: '',
       clothes: [
         {
-          image: cloth01,
+          image: clothes01,
           name: "Jordan X Travis Scott",
           price: null,
           price_discount: 175,
@@ -127,7 +129,7 @@ export default {
           id: 1,
         },
         {
-          image: cloth02,
+          image: clothes02,
           name: "Jodan X Travis Scott",
           price: null,
           price_discount: 65,
@@ -135,7 +137,7 @@ export default {
           id: 2,
         },
         {
-          image: cloth03,
+          image: clothes03,
           name: "Nike ACG Lungs",
           price: null,
           price_discount: 115,
@@ -143,7 +145,7 @@ export default {
           id: 3,
         },
         {
-          image: cloth04,
+          image: clothes04,
           name: "Texas Longhorns",
           price: null,
           price_discount: 130,
@@ -151,7 +153,7 @@ export default {
           id: 4,
         },
         {
-          image: cloth05,
+          image: clothes05,
           name: "Duke blue devils Staement workmark Lockup Heavyweight",
           price: null,
           price_discount: 123.97,
@@ -159,7 +161,7 @@ export default {
           id: 5,
         },
         {
-          image: cloth06,
+          image: clothes06,
           name: "Nike Smiley Swoosh Printed Tricot Set",
           price: "$55",
           price_discount: 37.97,
@@ -167,7 +169,7 @@ export default {
           id: 6,
         },
         {
-          image: cloth07,
+          image: clothes07,
           name: "Nike Sportwear Everything Wovens",
           price: "$90",
           price_discount: 76.97,
@@ -175,7 +177,7 @@ export default {
           id: 7,
         },
         {
-          image: cloth08,
+          image: clothes08,
           name: "Nike Sportswear Essentials",
           price: "$90",
           price_discount: 62.97,
@@ -183,7 +185,7 @@ export default {
           id: 8,
         },
         {
-          image: cloth09,
+          image: clothes09,
           name: "Nike Windrunner",
           price: "$90",
           price_discount: 76.97,
@@ -191,7 +193,7 @@ export default {
           id: 9,
         },
         {
-          image: cloth010,
+          image: clothes010,
           name: "Nike Tech Reimagined",
           price: "$145",
           price_discount: 122.97,
@@ -204,8 +206,17 @@ export default {
     };
   },
   computed: {
-    clothe() {
-      return this.clothes.slice(0, this.companiesVisible);
+    clothesItems() {
+      const filtered = this.searchQuery
+        ? this.clothes.filter(
+            (clothes) =>
+              clothes.name &&
+              typeof clothes.name === "string" &&
+              clothes.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
+        : this.clothes;
+
+      return filtered.slice(0, this.companiesVisible);
     },
   },
 };
@@ -228,7 +239,7 @@ span {
   box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 43px;
   transform: translate3d(0px, -1px, 0px);
 }
-.button{
+.button {
   display: flex;
   justify-content: center;
 }

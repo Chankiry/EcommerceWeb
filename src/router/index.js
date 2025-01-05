@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ViewProduct from '../views/home/products/view_product/ViewProduct.vue';
 
 const routes = [
   {
@@ -45,6 +46,17 @@ const routes = [
       { path: 'signup', component: () => import('../views/auth/SignUp.vue') },
     ]
   },
+  
+    {
+      path: '/product/:id', // Dynamic route with product ID
+    name: 'ViewProduct',
+    component: ()=>import('../views/home/products/view_product/ViewProduct.vue'),
+    props: true,
+     
+    }
+    
+    
+  
 ];
 
 const router = createRouter({
