@@ -27,7 +27,8 @@
           </svg>
         </div>
         <input
-          type="search"
+          type="text"
+           v-model="searchQuery"
           id="default-search"
           class="block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Mockups, Logos..."
@@ -47,8 +48,8 @@
     >
       <router-link :to="'view-product'"
         class="w-[18rem] max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
-        v-for="shoes in shoess"
-        :key="shoes.image"
+        v-for="shoes in shoesItems"
+        :key="shoes.id || shoes.image"
       >
         <a href="#">
           <img
@@ -112,9 +113,10 @@ import shoes09 from "../../../assets/images/shoes09.png";
 import shoes010 from "../../../assets/images/shoes010.png";
 export default {
   name: "Shoes",
-  prope: ["Shoes"],
+  // prope: ["Shoes"],
   data() {
     return {
+      searchQuery: '',
       shoes: [
         {
           image: shoes01,
@@ -202,8 +204,15 @@ export default {
     };
   },
   computed: {
-    shoess() {
-      return this.shoes.slice(0, this.companiesVisible);
+    shoesItems() {
+      // Filter the shoes based on searchQuery
+      const filtered = this.searchQuery
+        ? this.shoes.filter(shoe =>
+            shoe.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
+        : this.shoes;
+
+      return filtered.slice(0, this.companiesVisible);
     },
   },
 };

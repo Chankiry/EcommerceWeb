@@ -27,7 +27,8 @@
           </svg>
         </div>
         <input
-          type="search"
+          type="text"
+           v-model="searchQuery"
           id="default-search"
           class="block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Mockups, Logos..."
@@ -47,7 +48,7 @@
     >
       <router-link :to="'view-product'"
         class="w-[18rem] max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
-        v-for="handBags in Handbages"
+        v-for="handBags in handbagesItem"
         :key="handBags.image"
       >
         <a href="#">
@@ -117,6 +118,7 @@ export default {
   // prope: ["Clothes"],
   data() {
     return {
+      searchQuery:'',
       handBags: [
         {
           image: handbag01,
@@ -204,8 +206,17 @@ export default {
     };
   },
   computed: {
-    Handbages() {
-      return this.handBags.slice(0, this.companiesVisible);
+    handbagesItem() {
+      const filtered = this.searchQuery
+        ? this.handBags.filter(
+            (handBags) =>
+            handBags.name &&
+              typeof handBags.name === "string" &&
+              handBags.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
+        : this.handBags;
+
+      return filtered.slice(0, this.companiesVisible);
     },
   },
 };
