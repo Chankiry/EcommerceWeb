@@ -124,7 +124,7 @@
       </div>
 
       <div class="footer-column">
-        <h3><b>DECIBULLZ</b></h3>
+        <h3><b>ECOMMERCE</b></h3>
         <ul>
           <li><a href="#">Reviews</a></li>
           <li><a href="#">Blog</a></li>
@@ -141,7 +141,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>© 2025, Decibullz.</p>
+      <p>© 2025, ECOMMERCE.</p>
       <div class="social-icons">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
