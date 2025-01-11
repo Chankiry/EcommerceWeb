@@ -2,6 +2,9 @@
   <div>
     <!-- Make Navbar sticky -->
     <Navbar class="sticky-navbar" />
+    <div class="w-full h-[90px]">
+
+    </div>
     <router-view />
   </div>
 </template>

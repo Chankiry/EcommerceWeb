@@ -66,9 +66,17 @@ const routes = [
     component: ()=>import('../views/home/products/view_product/ViewProduct.vue'),
     props: true,
      
-    }
-    
-    
+    },
+    {
+      path: '/contactus',
+      name: 'contactus',
+      component: () => import('../views/about_us/contactus.vue'),
+    },
+    {
+      path: '/Clothes',
+      name: 'Clothes',
+      component: () => import('../views/home/products/Clothes.vue'),
+    },
   
 ];
 

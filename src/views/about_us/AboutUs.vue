@@ -1,13 +1,13 @@
 <template>
-  <div class="ecommerce-page">
+  <div class="ecommerce-page -mt-[90px]">
     <!-- About Us Section -->
     <section class="about-us-section">
-  <div class="about-us-overlay"></div> <!-- No img tag here -->
-  <div class="about-us-content">
-    <h2>About Us</h2>
-    
-  </div>
-</section>
+      <div class="about-us-overlay"></div> <!-- No img tag here -->
+      <div class="about-us-content">
+        <h2>About Us</h2>
+        
+      </div>
+    </section>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -16,7 +16,7 @@
           <p>
             Welcome to our E-commerce store! We offer creative products, solutions, and services to help make your projects a success.
           </p>
-        <button class="hero-button">Contact Us</button>
+        <button class="hero-button"><router-link to="contactus"> Contact Us</router-link></button>
       </div>
       <div class="hero-image">
         <img src="@/assets/abtus 1.png" alt="E-commerce illustration" style="width: 1000px; height: auto;" />
@@ -28,19 +28,23 @@
   </div>
 
     <!-- Features Section -->
+    <li> 
         <div class="features-section">
         <h1><b>Our Featured Products</b></h1>
         <div class="features-container">
-          <div v-for="feature in features" :key="feature.id" class="feature-card">
+        <div v-for="feature in features" :key="feature.id" class="feature-card">
+           <router-link to="/Clothes" >
             <img :src="feature.image" :alt="feature.title" class="feature-image" />
             <div class="feature-description">
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
             </div>
+           </router-link>
           </div>
+                 
         </div>
       </div>
-
+</li>
     <!-- Brands & Location Section -->
     
       <!-- Brands Section -->
@@ -177,6 +181,7 @@ export default {
           description:
             "Explore a world of fashion with our premium footwear collection. Perfect for any occasion, designed for comfort and style.",
           image: prodescrImage,
+          
         },
         {
           id: 2,
@@ -238,11 +243,11 @@ h1, h2, h3 {
 }
 .about-us-section {
   position: relative;
-  background-image: url('@/assets/overlay1.png'); /* Background image */
+  background-image: url('@/assets/overlay2.jpg'); /* Background image */
   background-size: cover;
   background-position: center;
-  height: 300px; /* Adjust as needed */
-  color: white;
+  height: 400px; /* Adjust as needed */
+  color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,11 +259,11 @@ h1, h2, h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(53, 48, 48, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-}z
+}
 
 .about-us-content {
   text-align: center;
