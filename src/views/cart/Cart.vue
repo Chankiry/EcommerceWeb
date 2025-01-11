@@ -1,6 +1,6 @@
 <template>
   <div class="cart-page">
-    <h1>Checkout Total</h1>
+    <b><h2>Checkout Total</h2></b>
     <div class="cart-items-container">
       <div class="cart-header">
         <h2>{{ cartItems.length }} Items</h2>
@@ -86,43 +86,61 @@ export default {
 .cart-page {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #f9fafb;
+  color: #333;
+  width: 50%;
 }
 .cart-header {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 20px;
   text-align: left;
+  color: #4a4a4a;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
 }
 .cart-items-container {
-  background-color: #e6e6e6;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .cart-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  background: #fff;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  padding: 15px;
+  background: #fefefe;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cart-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 .item-image {
   width: 80px;
   height: 80px;
   border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
 }
 .item-details {
   flex-grow: 1;
   padding: 0 15px;
+  color: #555;
 }
 .item-details h3 {
   margin: 0 0 5px;
+  font-size: 1.1rem;
+  color: #333;
 }
 .price {
-  color: red;
-  font-size: 1.1rem;
+  color: #ff4d4f;
+  font-size: 1.2rem;
   margin: 5px 0;
+  font-weight: bold;
 }
 .quantity-control {
   display: flex;
@@ -131,48 +149,54 @@ export default {
 }
 .quantity-control button {
   border: none;
-  background: #ddd;
+  background: #e0e0e0;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 8px 12px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 .quantity-control button:hover {
-  background: #bbb;
+  background: #bfbfbf;
 }
 .total {
   font-weight: bold;
+  color: #333;
 }
 .remove-item {
   border: none;
   background: none;
   font-size: 1.2rem;
-  color: gray;
+  color: #999;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 .remove-item:hover {
-  color: red;
+  color: #ff4d4f;
 }
 .checkout-total {
   margin-top: 20px;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: right;
+  color: #4a4a4a;
 }
 .checkout-button-container {
   text-align: right;
   margin: 20px 0;
 }
 .checkout-button {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 25px;
   font-size: 1.2rem;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 .checkout-button:hover {
-  background-color: #45a049;
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 </style>
