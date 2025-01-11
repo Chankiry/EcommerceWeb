@@ -21,7 +21,10 @@
           <div class="info-item">
             <i class="fas fa-phone"></i>
             <span>{{ phone }}</span>
+          </div><div>
+            <button class="update-btn" @click="updateProfile">Edit Profile</button>
           </div>
+          
         </div>
       </div>
     </main>
@@ -106,6 +109,20 @@ h2 {
 .info-item i {
   margin-right: 10px;
   color: #888;
+}
+.update-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-btn:hover {
+  background-color: #0056b3;
 }
 
 </style>

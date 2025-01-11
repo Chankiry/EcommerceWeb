@@ -4,7 +4,7 @@
     <div class="slider-container bg-slate-200 h-[800px] w-full flex items-center justify-center">
       <div class="slider" ref="slider">
         <div class="image-wrapper">
-          <img src="@/assets/background.png" alt="Cloth background" class="slide-image" />
+          <img src="@/assets/prodescr.jpg" alt="Cloth background" class="slide-image" />
         </div>  
         <div class="image-wrapper">
           <img src="@/assets/Clothes.jpg" alt="Cloth background" class="slide-image" />
@@ -13,7 +13,7 @@
           <img src="@/assets/hand.jpg" alt="Cloth background" class="slide-image" />
         </div> 
         <div class="image-wrapper">
-          <img src="@/assets/wallet1.jpg" alt="Cloth background" class="slide-image" />
+          <img src="@/assets/wallet2.jpg" alt="Cloth background" class="slide-image" />
         </div>
        
       </div>
@@ -61,8 +61,9 @@ export default {
 .slider-container {
   overflow: hidden;
   width: 100%;
-  height: 800px;
+  height: 450px;
   position: relative;
+  display: flex;
 }
 
 .slider {
@@ -80,3 +81,4 @@ export default {
   height: 800px;
 }
 </style>
+x
