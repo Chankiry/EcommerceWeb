@@ -244,9 +244,11 @@ h1, h2, h3 {
 .about-us-section {
   position: relative;
   background-image: url('@/assets/overlay2.jpg'); /* Background image */
-  background-size: cover;
-  background-position: center;
-  height: 400px; /* Adjust as needed */
+  background-size: 1312px 521px; /* Match the exact dimensions */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling */
+  width: 100%; /* Explicit width */
+  height: 521px; /* Explicit height */
   color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
@@ -257,9 +259,9 @@ h1, h2, h3 {
   position: ax`bsolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(53, 48, 48, 0.5); 
+  width: 100%; /* Match parent width */
+  height: 100%; /* Match parent height */
+  background: rgba(53, 48, 48, 0.5); /* Semi-transparent overlay */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -267,8 +269,8 @@ h1, h2, h3 {
 
 .about-us-content {
   text-align: center;
-  z-index: 2; 
-  color: white; 
+  z-index: 2; /* Place content above overlay */
+  color: white;
 }
 
 .about-us-content h2 {

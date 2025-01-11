@@ -83,9 +83,11 @@
   .contact-us-section {
   position: relative;
   background-image: url('@/assets/overlay2.jpg'); /* Background image */
-  background-size: cover;
-  background-position: center;
-  height: 400px; /* Adjust as needed */
+  background-size: 1312px 521px; /* Match the exact dimensions */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling */
+  width: 100%; /* Explicit width */
+  height: 521px; /* Explicit height */
   color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
