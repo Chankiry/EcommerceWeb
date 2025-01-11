@@ -254,7 +254,7 @@ h1, h2, h3 {
 }
 
 .about-us-overlay {
-  position: absolute;
+  position: ax`bsolute;
   top: 0;
   left: 0;
   right: 0;
