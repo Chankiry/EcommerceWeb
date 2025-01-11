@@ -1,24 +1,31 @@
 <template>
-  <nav class="w-64 bg-gray-800 text-white h-auto p-4">
+  <div class="h-auto bg-gray-100">
+    <nav class="w-64  text-black p-4 sticky">
     <ul class="space-y-4">
       <li v-for="item in items" :key="item.name">
-        <router-link :to="item.route" class="block p-2 rounded hover:bg-gray-700 transition duration-300">
-          {{ item.name }}
+        <router-link :to="item.route" class="p-2 border-bottom flex rounded hover:bg-gray-500 transition duration-300">
+          <img :src="item.image" alt="image" class="img">
+          <div class="mt-5">{{ item.name }}</div>
         </router-link>
       </li>
     </ul>
   </nav>
+  </div>
 </template>
 
 <script>
+import shoes from '../assets/images/shoes.png'
+import clothes from '../assets/images/clothes222.png'
+import handbag from '../assets/images/handbagIcon.png'
+import wallet from '../assets/images/walletIcon.png'
 export default {
   data() {
     return {
       items: [
-        { name: 'Shoes',    route: '/home/shoes' },
-        { name: 'HandBags', route: '/home/hand-bags' },
-        { name: 'Wallets',  route: '/home/wallets' },
-        { name: 'Clothes',  route: '/home/clothes' }
+        { image:shoes, name: 'Shoes',    route: '/home/shoes' },
+        { image:handbag,name: 'HandBags', route: '/home/hand-bags' },
+        { image:wallet,name: 'Wallets',  route: '/home/wallets' },
+        { image:clothes,name: 'Clothes',  route: '/home/clothes' }
       ]
     };
   }
@@ -26,5 +33,13 @@ export default {
 </script>
 
 <style scoped>
-/* Add any additional styles if needed */
+.sticky{
+  position: sticky;
+  top: 5.5rem;
+}
+.img{
+  height: 3.5rem;
+  width: 5rem;
+}
+
 </style>
