@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col bg-gray-100">
+  <div class="h-full flex flex-col bg-gray-100 -mt-[90px]">
     <!-- Full-space image slider -->
     <div class="slider-container bg-slate-200 h-[800px] w-full flex items-center justify-center">
       <div class="slider" ref="slider">
@@ -7,7 +7,7 @@
           <img src="@/assets/background.png" alt="Cloth background" class="slide-image" />
         </div>  
         <div class="image-wrapper">
-          <img src="@/assets/back_cloth.jpg" alt="Cloth background" class="slide-image" />
+          <img src="@/assets/Clothes.jpg" alt="Cloth background" class="slide-image" />
         </div>
         <div class="image-wrapper">
           <img src="@/assets/hand.jpg" alt="Cloth background" class="slide-image" />
