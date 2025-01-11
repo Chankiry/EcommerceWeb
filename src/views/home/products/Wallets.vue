@@ -111,6 +111,10 @@ import wallet07 from "../../../assets/images/wallet07.png";
 import wallet08 from "../../../assets/images/wallet08.png";
 import wallet09 from "../../../assets/images/wallet09.png";
 import wallet010 from "../../../assets/images/wallet010.png";
+import wallet011 from "../../../assets/images/wallet011.png";
+import wallet012 from "../../../assets/images/wallet012.png";
+import wallet013 from "../../../assets/images/wallet013.png";
+import wallet014 from "../../../assets/images/wallet014.png";
 import { ref, onMounted } from "vue";
 
 export default {
@@ -199,6 +203,38 @@ export default {
           price_discount: 20.97,
           discount: "30% Off",
           id: 10,
+        },
+        {
+          image: wallet011,
+          name: "Nike Icon Blazer",
+          price: null,
+          price_discount: 40,
+          discount: null,
+          id: 11,
+        },
+        {
+          image: wallet012,
+          name: "jordan Airborne",
+          price: "$60",
+          price_discount: 32,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: wallet013,
+          name: "Jordan",
+          price: "$75",
+          price_discount: 20.97,
+          discount: "30% Off",
+          id: 13,
+        },
+        {
+          image: wallet014,
+          name: "Nike",
+          price: "$75",
+          price_discount: 24,
+          discount: "30% Off",
+          id: 14,
         },
       ],
       companiesVisible: 8,

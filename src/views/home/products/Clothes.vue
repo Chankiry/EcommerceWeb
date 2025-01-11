@@ -112,6 +112,11 @@ import clothes07 from "../../../assets/images/cloth07.png";
 import clothes08 from "../../../assets/images/cloth08.png";
 import clothes09 from "../../../assets/images/cloth09.png";
 import clothes010 from "../../../assets/images/cloth010.png";
+import clothes011 from "../../../assets/images/clothes011.png";
+import clothes012 from "../../../assets/images/clothes012.png";
+import clothes013 from "../../../assets/images/clothes013.png";
+import clothes014 from "../../../assets/images/clothes014.png";
+import clothes015 from "../../../assets/images/clothes015.png";
 import { ref, onMounted } from "vue";
 
 export default {
@@ -199,6 +204,46 @@ export default {
           price_discount: 122.97,
           discount: null,
           id: 10,
+        },
+        {
+          image: clothes011,
+          name: "Nike Sportswear Phoenix Fleece",
+          price: "$55",
+          price_discount: 37.97,
+          discount: "30% Off",
+          id: 11,
+        },
+        {
+          image: clothes012,
+          name: "Nike Solo Swoosh",
+          price: "$40",
+          price_discount: 22.97,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: clothes013,
+          name: "Nike Sportswear",
+          price: "$50",
+          price_discount: 42.97,
+          discount: "30% Off",
+          id: 13,
+        },
+        {
+          image: clothes014,
+          name: "Nike ACG",
+          price: "$50",
+          price_discount: 37.97,
+          discount: "30% Off",
+          id: 14,
+        },
+        {
+          image: clothes015,
+          name: "Nike Sportswear Phoenix Plush",
+          price: "$85",
+          price_discount: 72.97,
+          discount: "40% Off",
+          id: 15,
         },
       ],
       companiesVisible: 8,

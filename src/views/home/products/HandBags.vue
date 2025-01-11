@@ -111,6 +111,11 @@ import handbag07 from "../../../assets/images/handbag07.png";
 import handbag08 from "../../../assets/images/handbag08.png";
 import handbag09 from "../../../assets/images/handbag09.png";
 import handbag010 from "../../../assets/images/handbag010.png";
+import handbag011 from "../../../assets/images/handbag011.png";
+import handbag012 from "../../../assets/images/handbag012.png";
+import handbag013 from "../../../assets/images/handbag013.png";
+import handbag014 from "../../../assets/images/handbag014.png";
+import handbag015 from "../../../assets/images/handbag015.png";
 import { ref, onMounted } from "vue";
 
 export default {
@@ -199,6 +204,46 @@ export default {
           price_discount: 82,
           discount: "30% Off",
           id: 10,
+        },
+        {
+          image: handbag011,
+          name: "Nike",
+          price: null,
+          price_discount: 32,
+          discount: null,
+          id: 11,
+        },
+        {
+          image: handbag012,
+          name: "Jordan Icon",
+          price: "$110",
+          price_discount: 93.97,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: handbag013,
+          name: "Jordan Stadium",
+          price: null,
+          price_discount: 35,
+          discount: null,
+          id: 13,
+        },
+        {
+          image: handbag014,
+          name: "Jordan Monogram",
+          price: "$130",
+          price_discount: 100,
+          discount: "30% Off",
+          id: 14,
+        },
+        {
+          image: handbag015,
+          name: "Jordan",
+          price: "$65",
+          price_discount: 55.97,
+          discount: "30% Off",
+          id: 15,
         },
       ],
       companiesVisible: 8,

@@ -111,6 +111,11 @@ import shoes07 from "../../../assets/images/shoes07.png";
 import shoes08 from "../../../assets/images/shoes08.png";
 import shoes09 from "../../../assets/images/shoes09.png";
 import shoes010 from "../../../assets/images/shoes010.png";
+import shoes011 from "../../../assets/images/shoes011.png";
+import shoes012 from "../../../assets/images/shoes012.png";
+import shoes013 from "../../../assets/images/shoes013.png";
+import shoes014 from "../../../assets/images/shoes014.png";
+import shoes015 from "../../../assets/images/shoes015.png";
 export default {
   name: "Shoes",
   // prope: ["Shoes"],
@@ -197,6 +202,46 @@ export default {
           price_discount: 82.97,
           discount: null,
           id: 10,
+        },
+        {
+          image: shoes011,
+          name: "Tatum 3 LNY",
+          price: "$125",
+          price_discount: 90,
+          discount: "30% Off",
+          id: 11,
+        },
+        {
+          image: shoes012,
+          name: "Air Jordan 3 Ratro Black Cat",
+          price: "$250",
+          price_discount: 200,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: shoes013,
+          name: "Air Jordan 5 Retro White and Black",
+          price: "$250",
+          price_discount: 200,
+          discount: "30% Off",
+          id: 13,
+        },
+        {
+          image: shoes014,
+          name: "Air Jordan 1 Mid",
+          price: "$280",
+          price_discount: 125,
+          discount: "30% Off",
+          id: 14,
+        },
+        {
+          image: shoes015,
+          name: 'Air Jordan 1 Zoom CMFT 2',
+          price: "$150",
+          price_discount: 97.97,
+          discount: "30% Off",
+          id: 15,
         },
       ],
       companiesVisible: 8,
