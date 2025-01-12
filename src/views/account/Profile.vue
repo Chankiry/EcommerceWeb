@@ -3,31 +3,65 @@
     <!-- Profile Section -->
     <main class="profile-section">
       <div class="profile-card">
-        <img src="@/assets/profile2.png" :src="profileImage" alt="Profile Picture" />				        <h2>{{ name }}</h2>
-        
-        <div class="info-item">
-            <i class="fas fa-phone"></i>
-            <span>{{ dob }}</span>
+        <div class="profile-left">
+          <img :src="profileImage" alt="Profile Picture" class="profile-image" />
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleImageUpload"
+            ref="fileInput"
+            style="display: none;"
+          />
+          <button class="upload-image-btn" @click="$refs.fileInput.click()">
+            <i class="fas fa-camera"></i> Upload Image
+          </button>
+        </div>
+        <div class="profile-right">
+         
+
+          <div class="info">
+            <div class="info-item">
+              <i class="fas fa-user"></i>
+              <span>{{ username }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <span>{{ email }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <span>{{ phone }}</span>
+            </div>
+            <div>
+              <button class="update-btn" @click="openEditModal">Edit Profile</button>
+            </div>
           </div>
-        <div class="info">
-          <div class="info-item">
-            <i class="fas fa-user"></i>
-            <span>{{ username }}</span>
-          </div>
-          <div class="info-item">
-            <i class="fas fa-envelope"></i>
-            <span>{{ email }}</span>
-          </div>
-          <div class="info-item">
-            <i class="fas fa-phone"></i>
-            <span>{{ phone }}</span>
-          </div><div>
-            <button class="update-btn" @click="updateProfile">Edit Profile</button>
-          </div>
-          
         </div>
       </div>
     </main>
+
+    <!-- Edit Profile Modal -->
+    <div v-if="isEditing" class="modal">
+      <div class="modal-content">
+        <h2>Edit Profile</h2>
+        <div class="form-group">
+          <label for="edit-username">Username:</label>
+          <input id="edit-username" v-model="editedUsername" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="edit-email">Email:</label>
+          <input id="edit-email" v-model="editedEmail" type="email" />
+        </div>
+        <div class="form-group">
+          <label for="edit-phone">Phone:</label>
+          <input id="edit-phone" v-model="editedPhone" type="tel" />
+        </div>
+        <div class="modal-buttons">
+          <button @click="saveProfile" class="save-btn">Save</button>
+          <button @click="closeEditModal" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,16 +70,40 @@ export default {
   data() {
     return {
       profileImage: "https://via.placeholder.com/150", // Replace with actual profile picture URL
-      name: "Rith",
-      dob: "9 May 1988",
       username: "Nay Sovannarith",
       email: "narith2004@gmail.com",
       phone: "012345678",
+      isEditing: false,
+      editedUsername: "",
+      editedEmail: "",
+      editedPhone: "",
     };
   },
   methods: {
-    updateProfile() {
-      alert("Update button clicked!");
+    openEditModal() {
+      this.isEditing = true;
+      this.editedUsername = this.username;
+      this.editedEmail = this.email;
+      this.editedPhone = this.phone;
+    },
+    closeEditModal() {
+      this.isEditing = false;
+    },
+    saveProfile() {
+      this.username = this.editedUsername;
+      this.email = this.editedEmail;
+      this.phone = this.editedPhone;
+      this.closeEditModal();
+    },
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.profileImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     },
   },
 };
@@ -62,26 +120,64 @@ export default {
 }
 
 .profile-card {
-  width: 400px;
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+  height: 500px;
   padding: 20px;
   border-radius: 10px;
-  align-items: center;
-  justify-content: center;
   background-color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+}
+
+.profile-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.profile-right {
+  flex: 2;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 5%;
 }
 
 .profile-image {
-  display: block; /* Ensures the image behaves as a block-level element */
-  margin: 0 auto; /* Centers the image horizontally */
-  width: 120px; /* Set equal width */
-  height: 120px; /* Set equal height */
-  border-radius: 50%; /* Makes the shape circular */
-  object-fit: cover; /* Ensures proper cropping of the image */
-  overflow: hidden; /* Ensures any overflow content is hidden */
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
+.upload-image-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-image-btn:hover {
+  background-color: #218838;
+}
+
+.upload-image-btn i {
+  margin-right: 10px;
+}
 
 h2 {
   margin: 10px 0;
@@ -91,11 +187,14 @@ h2 {
 
 .info {
   margin-top: 20px;
+  justify-content: center;
+  height: 500px;
+  align-items: center;
 }
 
 .info-item {
   display: flex;
- 
+  align-items: center;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -104,12 +203,14 @@ h2 {
   font-size: 0.95em;
   color: #555;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding-bottom: 5%;
 }
 
 .info-item i {
   margin-right: 10px;
   color: #888;
 }
+
 .update-btn {
   padding: 10px 20px;
   font-size: 1em;
@@ -118,6 +219,7 @@ h2 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 25%;
   transition: background-color 0.3s ease;
 }
 
@@ -125,4 +227,73 @@ h2 {
   background-color: #0056b3;
 }
 
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
 </style>
+
