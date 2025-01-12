@@ -3,12 +3,15 @@
     <!-- Profile Section -->
     <main class="profile-section">
       <div class="profile-card">
+        <div class="title-container">
+  <div class="title">Profile Page</div>
+      </div>
         <div class="profile-left">
           <img :src="profileImage" alt="Profile Picture" class="profile-image" />
           <input
             type="file"
             accept="image/*"
-            @change="handleImageUpload"
+            @change="handleImageUpload"   
             ref="fileInput"
             style="display: none;"
           />
@@ -20,14 +23,17 @@
          
 
           <div class="info">
+            <div class="info-title">Name:</div>
             <div class="info-item">
               <i class="fas fa-user"></i>
               <span>{{ username }}</span>
             </div>
+            <div class="info-title">Email:</div>
             <div class="info-item">
               <i class="fas fa-envelope"></i>
               <span>{{ email }}</span>
             </div>
+            <div class="info-title">Phone:</div>
             <div class="info-item">
               <i class="fas fa-phone"></i>
               <span>{{ phone }}</span>
@@ -111,6 +117,20 @@ export default {
 
 <style scoped>
 /* Profile Section */
+/* Container for the title */
+.title-container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  margin-top: 20px; /* Adjust top margin if needed */
+}
+
+/* Adjust the title */
+.title {
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold;
+  margin: 0 auto;
+  padding-right: 10px
+}
 .profile-section {
   display: flex;
   justify-content: center;
@@ -147,6 +167,12 @@ export default {
   justify-content: flex-start;
   margin-top: 5%;
 }
+.info-title {
+  font-size: 1.1em;
+  font-weight:lighter;
+  margin-bottom: 5px;
+  color: #333;
+}
 
 .profile-image {
   width: 300px;
@@ -154,14 +180,14 @@ export default {
   object-fit: cover;
   overflow: hidden;
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .upload-image-btn {
   padding: 10px 20px;
   font-size: 1em;
   color: white;
-  background-color: #28a745;
+  background-color: #6097df;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -172,11 +198,11 @@ export default {
 }
 
 .upload-image-btn:hover {
-  background-color: #218838;
+  background-color: #1818c4;
 }
 
 .upload-image-btn i {
-  margin-right: 10px;
+  
 }
 
 h2 {
@@ -186,7 +212,7 @@ h2 {
 }
 
 .info {
-  margin-top: 20px;
+  margin-top: 10px;
   justify-content: center;
   height: 500px;
   align-items: center;
@@ -199,11 +225,11 @@ h2 {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px 15px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   font-size: 0.95em;
   color: #555;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding-bottom: 5%;
+  
 }
 
 .info-item i {
@@ -215,16 +241,16 @@ h2 {
   padding: 10px 20px;
   font-size: 1em;
   color: white;
-  background-color: #007bff;
+  background-color: #6097df;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 25%;
+  margin-top: 5.5%;
   transition: background-color 0.3s ease;
 }
 
 .update-btn:hover {
-  background-color: #0056b3;
+  background-color: #1818c4;
 }
 
 .modal {
