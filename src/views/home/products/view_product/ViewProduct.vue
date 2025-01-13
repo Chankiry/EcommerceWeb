@@ -182,7 +182,6 @@
 import { ref } from "vue";
 import Popup from "../view_product/PopupViewProduct.vue";
 import { RouterLink } from "vue-router";
-import { getUsername } from "../../../account/Profile.vue";
 
 
 const stars = document.querySelectorAll(".stars i");
