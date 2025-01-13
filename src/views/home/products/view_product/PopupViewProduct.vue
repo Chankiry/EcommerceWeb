@@ -8,6 +8,7 @@
           class="popup-close btn btn-secondary p-2 rounded-md bg-blue-900 hover:bg-slate-600"
           @click="TogglePopup()"
         >
+        
           Post
         </button>
         <button
