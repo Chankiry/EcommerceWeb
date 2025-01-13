@@ -5,7 +5,7 @@
       <li v-for="item in items" :key="item.name">
         <router-link :to="item.route" class="p-2 border-bottom flex rounded hover:bg-gray-500 transition duration-300">
           <img :src="item.image" alt="image" class="img">
-          <div class="mt-5">{{ item.name }}</div>
+          <div class="mt-5 text-center">{{ item.name }}</div>
         </router-link>
       </li>
     </ul>
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import shoes from '../assets/images/shoes.png'
-import clothes from '../assets/images/clothes222.png'
-import handbag from '../assets/images/handbagIcon.png'
-import wallet from '../assets/images/walletIcon.png'
+import shoes from '../assets/images/a.png'
+import clothes from '../assets/images/q.png'
+import handbag from '../assets/images/v1.png'
+import wallet from '../assets/images/b1.png'
 export default {
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
 }
 .img{
   height: 3.5rem;
-  width: 5rem;
+  width: 4rem;
 }
 
 </style>

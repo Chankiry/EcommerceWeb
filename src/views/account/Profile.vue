@@ -12,7 +12,7 @@
         <div class="info">
           <div class="info-item">
             <i class="fas fa-user"></i>
-            <span>{{ username }}</span>
+            <span id="username">{{ username }}</span>
           </div>
           <div class="info-item">
             <i class="fas fa-envelope"></i>
@@ -32,6 +32,10 @@
 </template>
 
 <script>
+export const getUsername=()=>{
+  const userNameElement = document.getElementById('username');
+  return userNameElement ? userNameElement.textContent : 'You'; // Return the username or default to 'You'
+}
 export default {
   data() {
     return {

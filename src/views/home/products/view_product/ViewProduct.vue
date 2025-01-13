@@ -1,4 +1,5 @@
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <main class="flex font-mono">
     <div class="block w-full">
       <div class="m-10 flex review">
@@ -65,7 +66,12 @@
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    style="width: 40rem; height: 5rem; margin-top: -0.8rem;margin-left: -17rem;"
+                    style="
+                      width: 40rem;
+                      height: 5rem;
+                      margin-top: -0.8rem;
+                      margin-left: -17rem;
+                    "
                   >
                     <circle
                       v-for="(color, index) in product.colors"
@@ -128,22 +134,73 @@
           </div>
         </div>
 
-        <textarea
-          v-model="newReview"
-          placeholder=" Write your review here"
-        ></textarea>
-        <div style="margin-left: 38rem" class="flex mb-10">
-          <button @click="submitReview" class="button mx-5">Send</button>
-          <button @click="deleteReview(index)" class="button">Delete</button>
-        </div>
+        <!-- Popup -->
+        <button
+          class="btn btn-secondary p-3 w-[10rem] mb-10 hover:text-blue-900 rounded-md"
+          @click="() => TogglePopup('buttonTriggers')"
+        >
+          comment here
+        </button>
+        <Popup
+          v-if="popupTriggers.buttonTriggers"
+          :TogglePopup="() => TogglePopup('buttonTriggers')"
+        >
+          <h2 class="text-center font-bold">Rate this websit</h2>
+
+          <div class="my-5 w-auto flex justify-center">
+            <form action="#">
+              <div class=" stars flex gap-10 text-center">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </form>
+          </div>
+          <textarea
+            v-model="newReview"
+            placeholder=" Write your review here"
+            class="border border-md p-2 "
+          ></textarea>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button" @click="handleSubmit">
+              Submit
+            </button>
+            <button class="btn btn-secondary" type="button" @click="handleCancel">
+              Cancel
+            </button>
+          </div>
+        </Popup>
       </div>
     </div>
   </main>
+  <RouterLink />
 </template>
 
 <script>
+import { ref } from "vue";
+import Popup from "../view_product/PopupViewProduct.vue";
+import { RouterLink } from "vue-router";
+import { getUsername } from "../../../account/Profile.vue";
+
+
+const stars = document.querySelectorAll(".stars i");
+stars.forEach((star, index1) => {
+    star.addEventListener("click", () => {
+        stars.forEach((star, index2) => {
+            index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+        });
+    });
+});
+
+
 export default {
   name: "ViewProduct",
+  props: ["TogglePopup"],
+  components: {
+    Popup,
+  },
   data() {
     return {
       count: 1,
@@ -222,10 +279,20 @@ export default {
       console.log(`Selected color: ${color}`);
     },
 
+
+    handleSubmit() {
+      this.submitReview(); // Call the submitReview method
+      this.TogglePopup();  // Close the modal
+    },
+    handleCancel() {
+      this.deleteReview(); // Call the deleteReview method
+      this.TogglePopup();  // Close the modal
+    },
     submitReview() {
+      const author = getUsername();
       if (this.newReview.trim() !== "") {
         this.reviews.push({
-          author: "You",
+          author,
           date: new Date().toLocaleString(),
           content: this.newReview,
         });
@@ -235,11 +302,32 @@ export default {
     deleteReview(index) {
       this.reviews.splice(index, 1);
     },
+
+  },
+  setup() {
+    const popupTriggers = ref({
+      buttonTriggers: false,
+      // timedTriggers: false,
+    });
+
+    const TogglePopup = (trigger) => {
+      popupTriggers.value[trigger] = !popupTriggers.value[trigger];
+    };
+
+    return {
+      Popup,
+      popupTriggers,
+      TogglePopup,
+    };
   },
 };
+
 </script>
 
 <style scoped>
+.star-rating {
+  margin-bottom: 10px;
+}
 .counter {
   display: flex;
   align-items: center;
@@ -297,5 +385,17 @@ textarea {
 
 .button:hover {
   background-color: #0056b3;
+}
+.stars i.active{
+  color: #FFD43B;
+}
+.stars i{
+  color: #e3dfdf;
+  cursor: pointer;
+  transition: color 0.2 ease;
+}
+textarea{
+  width: 30rem;
+  /* border-radius: 2rem solid green; */
 }
 </style>
