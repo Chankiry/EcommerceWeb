@@ -1,6 +1,6 @@
 <template>
   <div class="cart-page">
-    <b><h2>Checkout Total</h2></b>
+  <div class="Title">Checkout Total</div>
     <div class="cart-items-container">
       <div class="cart-header">
         <h2>{{ cartItems.length }} Items</h2>
@@ -8,7 +8,7 @@
       <div class="cart-item" v-for="(item, index) in cartItems" :key="index">
         <img :src="item.image" alt="Shoe Image" class="item-image" />
         <div class="item-details">
-          <h3>{{ item.name }}</h3>
+         <div class="name-item">{{ item.name }}</div>
           <p class="price">{{ item.price }}$</p>
           <div class="quantity-control">
             <button @click="decreaseQuantity(index)">-</button>
@@ -19,6 +19,9 @@
         <p class="total">{{ (item.price * item.quantity).toFixed(2) }}$</p>
         <button class="remove-item" @click="removeItem(index)">&#x2715;</button>
       </div>
+      <div class="checkout-total">
+      <h2>Total:  {{ totalAmount.toFixed(2) }}$</h2>
+    </div>
     </div>
     <!-- New Checkout Button -->
     <div class="checkout-button-container">
@@ -27,9 +30,7 @@
         Proceed to Checkout
     </router-link>
     </div>
-    <div class="checkout-total">
-      <h2>Total Amount: {{ totalAmount.toFixed(2) }}$</h2>
-    </div>
+
   </div>
 </template>
 
@@ -50,7 +51,7 @@ export default {
         },
         {
           name: "Pastel Shoes",
-          price: 12,
+          price: 10,
           quantity: 1,
           image: shoes02,
         },
@@ -83,11 +84,19 @@ export default {
 </script>
 
 <style scoped>
+.Title {
+  text-align: center;
+  font-weight: bolder ;
+  font-size: 20px;
+}
 .cart-page {
   font-family: Arial, sans-serif;
   padding: 20px;
   background-color: #f9fafb;
   color: #333;
+  justify-content: center;
+  align-items: center;
+  margin-left: 25%;
   width: 50%;
 }
 .cart-header {
@@ -119,6 +128,11 @@ export default {
   transform: scale(1.02);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+.name-item {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #686868;
+}
 .item-image {
   width: 80px;
   height: 80px;
@@ -137,7 +151,7 @@ export default {
   color: #333;
 }
 .price {
-  color: #ff4d4f;
+  color: #7cbc8d;
   font-size: 1.2rem;
   margin: 5px 0;
   font-weight: bold;
@@ -151,13 +165,13 @@ export default {
   border: none;
   background: #e0e0e0;
   border-radius: 5px;
-  padding: 8px 12px;
+  padding: 1px 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 .quantity-control button:hover {
-  background: #bfbfbf;
+  background: #9c9a9a;
 }
 .total {
   font-weight: bold;
@@ -166,27 +180,32 @@ export default {
 .remove-item {
   border: none;
   background: none;
-  font-size: 1.2rem;
-  color: #999;
+  font-weight: bolder;
+  font-size: 1rem;
+  color: #da4141;
   cursor: pointer;
   transition: color 0.3s ease;
+  margin-left: 1%;
+
 }
 .remove-item:hover {
-  color: #ff4d4f;
+  color: #a90609;
+  margin-left: 2%;
 }
 .checkout-total {
   margin-top: 20px;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: right;
-  color: #4a4a4a;
+  color: #7cbc8d;
 }
 .checkout-button-container {
   text-align: right;
+
   margin: 20px 0;
 }
 .checkout-button {
-  background-color: #007bff;
+  background-color: #78716c;
   color: white;
   border: none;
   padding: 12px 25px;

@@ -6,8 +6,20 @@
         <img src="@/assets/logo3.png" alt="E-Commerce Logo" class="h-12">
       </router-link>
 
+      <!-- Mobile Menu Toggle Button -->
+      <button
+        class="menu-toggle block md:hidden"
+        @click="isMenuOpen = !isMenuOpen"
+        aria-label="Toggle menu"
+      >
+        <i class="bi bi-list text-white text-2xl"></i>
+      </button>
+
       <!-- Navigation Links -->
-      <ul class="flex space-x-8 text-lg font-semibold">
+      <ul
+        class="nav-links flex space-x-8 text-lg font-semibold hidden md:flex"
+        :class="{ 'flex flex-col space-y-4 absolute top-16 left-0 bg-black w-full text-center py-4 md:static md:flex-row md:space-y-0 md:space-x-8': isMenuOpen }"
+      >
         <li>
           <router-link to="/" class="nav-link">
             <i class="bi bi-house-door-fill"></i> Home
@@ -33,7 +45,10 @@
       </ul>
 
       <!-- Authentication Links -->
-      <ul class="flex space-x-6 text-lg font-semibold">
+      <ul
+        class="auth-links flex space-x-6 text-lg font-semibold hidden md:flex"
+        :class="{ 'flex flex-col space-y-4 absolute top-16 left-0 bg-black w-full text-center py-4 md:static md:flex-row md:space-y-0 md:space-x-6': isMenuOpen }"
+      >
         <li>
           <router-link to="/account/profile" class="nav-link">
             <i class="bi bi-person-circle"></i> Profile
@@ -66,7 +81,7 @@ export default {
     return {
       cartItemsCount: 0,
       isAuthenticated: false,
-     
+      isMenuOpen: false,
     };
   },
   methods: {
@@ -132,14 +147,26 @@ export default {
   justify-content: space-between;
 }
 
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-links,
+.auth-links {
+  transition: all 0.3s ease-in-out;
+}
+
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    text-align: center;
+  .nav-links.hidden,
+  .auth-links.hidden {
+    display: none;
   }
 
-  .navbar .nav-link {
-    margin: 10px 0;
+  .menu-toggle {
+    display: block;
   }
 }
 </style>
