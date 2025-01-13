@@ -4,9 +4,6 @@
     <div class="slider-container bg-slate-200 h-[800px] w-full flex items-center justify-center">
       <div class="slider" ref="slider">
         <div class="image-wrapper">
-          <img src="@/assets/prodescr.jpg" alt="Cloth background" class="slide-image" />
-        </div>  
-        <div class="image-wrapper">
           <img src="@/assets/Clothes.jpg" alt="Cloth background" class="slide-image" />
         </div>
         <div class="image-wrapper">
@@ -15,7 +12,9 @@
         <div class="image-wrapper">
           <img src="@/assets/wallet2.jpg" alt="Cloth background" class="slide-image" />
         </div>
-       
+       <div class="image-wrapper">
+          <img src="@/assets/prodescr.jpg" alt="Cloth background" class="slide-image" />
+        </div>  
       </div>
     </div>
 
