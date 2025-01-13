@@ -1,50 +1,49 @@
 <template>
-  <div class="">
-    <form class="max-w-md mx-auto my-5 mr-7">
-      <label
-        for="default-search"
-        class="mb-2 text-sm font-medium text-gray-400 sr-only dark:text-white"
-        >Search</label
-      >
-      <div class="relative">
-        <div
-          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-        >
-          <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+  <div class="mt-[-2rem]">
+    <div class="sticky">
+      <div class="box ">
+        <form class="max-w-md mx-auto mr-7 bg-gray-100">
+          <div class="relative flex justyfy-cente">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 mt-6 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              v-model="searchQuery"
+              id="default-search"
+              class="search-input mt-5 block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Mockups, Logos..."
+              required
             />
-          </svg>
-        </div>
-        <input
-          type="text"
-          v-model="searchQuery"
-          id="default-search"
-          class="search-input block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Mockups, Logos..."
-          required
-        />
-        <button
-          type="submit"
-          class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
+            <button
+              type="submit"
+              class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
 
     <div
-      class="min-h-screen grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
+      class="min-h-screen container grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
       <router-link
         :to="'view-product'"
@@ -61,7 +60,7 @@
         </a>
         <div class="px-5 pb-5">
           <a href="#">
-            <h5 
+            <h5
               class="text-lg font-semibold tracking-tight text-gray-900 dark:text-black"
             >
               {{ clothes.name }}
@@ -70,7 +69,7 @@
           <div class="flex items-center justify-between">
             <div class="flex">
               <div class="text-xl font-bold text-gray-900 dark:text-blue-400">
-                ${{ clothes.price_discount}}
+                ${{ clothes.price_discount }}
               </div>
               <span class="text-md text-gray-900 dark:text-gray-500 ml-3">{{
                 clothes.price
@@ -112,13 +111,18 @@ import clothes07 from "../../../assets/images/cloth07.png";
 import clothes08 from "../../../assets/images/cloth08.png";
 import clothes09 from "../../../assets/images/cloth09.png";
 import clothes010 from "../../../assets/images/cloth010.png";
+import clothes011 from "../../../assets/images/clothes011.png";
+import clothes012 from "../../../assets/images/clothes012.png";
+import clothes013 from "../../../assets/images/clothes013.png";
+import clothes014 from "../../../assets/images/clothes014.png";
+import clothes015 from "../../../assets/images/clothes015.png";
 import { ref, onMounted } from "vue";
 
 export default {
   name: "Clothes",
   data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
       clothes: [
         {
           image: clothes01,
@@ -200,6 +204,46 @@ export default {
           discount: null,
           id: 10,
         },
+        {
+          image: clothes011,
+          name: "Nike Sportswear Phoenix Fleece",
+          price: "$55",
+          price_discount: 37.97,
+          discount: "30% Off",
+          id: 11,
+        },
+        {
+          image: clothes012,
+          name: "Nike Solo Swoosh",
+          price: "$40",
+          price_discount: 22.97,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: clothes013,
+          name: "Nike Sportswear",
+          price: "$50",
+          price_discount: 42.97,
+          discount: "30% Off",
+          id: 13,
+        },
+        {
+          image: clothes014,
+          name: "Nike ACG",
+          price: "$50",
+          price_discount: 37.97,
+          discount: "30% Off",
+          id: 14,
+        },
+        {
+          image: clothes015,
+          name: "Nike Sportswear Phoenix Plush",
+          price: "$85",
+          price_discount: 72.97,
+          discount: "40% Off",
+          id: 15,
+        },
       ],
       companiesVisible: 8,
       step: 8,
@@ -212,7 +256,9 @@ export default {
             (clothes) =>
               clothes.name &&
               typeof clothes.name === "string" &&
-              clothes.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+              clothes.name
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase())
           )
         : this.clothes;
 
@@ -227,7 +273,19 @@ export default {
 span {
   text-decoration: line-through;
 }
+.sticky {
+  position: sticky;
+  top: 5.5rem;
+  z-index: 1;
+}
 
+.box {
+  display: block;
+  height: 5.5rem;
+  background-color: rgb(247, 247, 247);
+  width: 79rem;
+  
+}
 .card {
   /* padding: 15px; */
   border: 0px solid;
@@ -242,5 +300,62 @@ span {
 .button {
   display: flex;
   justify-content: center;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (max-width: 576px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Large screens: 3 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Large screens: 3 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Extra large screens: 4 columns */
+    gap: 1rem;
+  }
+  .box {
+    width: auto;
+    margin-top: 2rem;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    grid-template-columns: repeat(4, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
 }
 </style>

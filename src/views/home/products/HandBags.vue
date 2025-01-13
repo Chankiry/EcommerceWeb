@@ -1,52 +1,52 @@
 <template>
-  <div class="">
-    <form class="max-w-md mx-auto my-5 mr-7">
-      <label
-        for="default-search"
-        class="mb-2 text-sm font-medium text-gray-400 sr-only dark:text-white"
-        >Search</label
-      >
-      <div class="relative">
-        <div
-          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-        >
-          <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+  <div class="mt-[-2rem]">
+    <div class="sticky">
+      <div class="box">
+        <form class="max-w-md mx-auto mr-7 bg-gray-100">
+          <div class="relative flex justyfy-cente">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 mt-6 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              v-model="searchQuery"
+              id="default-search"
+              class="block w-full mt-5 p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Mockups, Logos..."
+              required
             />
-          </svg>
-        </div>
-        <input
-          type="text"
-           v-model="searchQuery"
-          id="default-search"
-          class="block w-full p-4 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Mockups, Logos..."
-          required
-        />
-        <button
-          type="submit"
-          class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
+            <button
+              type="submit"
+              class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
 
     <div
-      class="min-h-screen grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
+      class="min-h-screen container grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
-      <router-link :to="'view-product'"
+      <router-link
+        :to="'view-product'"
         class="w-[18rem] max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="handBags in handbagesItem"
         :key="handBags.image"
@@ -111,6 +111,11 @@ import handbag07 from "../../../assets/images/handbag07.png";
 import handbag08 from "../../../assets/images/handbag08.png";
 import handbag09 from "../../../assets/images/handbag09.png";
 import handbag010 from "../../../assets/images/handbag010.png";
+import handbag011 from "../../../assets/images/handbag011.png";
+import handbag012 from "../../../assets/images/handbag012.png";
+import handbag013 from "../../../assets/images/handbag013.png";
+import handbag014 from "../../../assets/images/handbag014.png";
+import handbag015 from "../../../assets/images/handbag015.png";
 import { ref, onMounted } from "vue";
 
 export default {
@@ -118,7 +123,7 @@ export default {
   // prope: ["Clothes"],
   data() {
     return {
-      searchQuery:'',
+      searchQuery: "",
       handBags: [
         {
           image: handbag01,
@@ -200,6 +205,46 @@ export default {
           discount: "30% Off",
           id: 10,
         },
+        {
+          image: handbag011,
+          name: "Nike",
+          price: null,
+          price_discount: 32,
+          discount: null,
+          id: 11,
+        },
+        {
+          image: handbag012,
+          name: "Jordan Icon",
+          price: "$110",
+          price_discount: 93.97,
+          discount: "30% Off",
+          id: 12,
+        },
+        {
+          image: handbag013,
+          name: "Jordan Stadium",
+          price: null,
+          price_discount: 35,
+          discount: null,
+          id: 13,
+        },
+        {
+          image: handbag014,
+          name: "Jordan Monogram",
+          price: "$130",
+          price_discount: 100,
+          discount: "30% Off",
+          id: 14,
+        },
+        {
+          image: handbag015,
+          name: "Jordan",
+          price: "$65",
+          price_discount: 55.97,
+          discount: "30% Off",
+          id: 15,
+        },
       ],
       companiesVisible: 8,
       step: 8,
@@ -210,9 +255,11 @@ export default {
       const filtered = this.searchQuery
         ? this.handBags.filter(
             (handBags) =>
-            handBags.name &&
+              handBags.name &&
               typeof handBags.name === "string" &&
-              handBags.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+              handBags.name
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase())
           )
         : this.handBags;
 
@@ -227,7 +274,18 @@ export default {
 span {
   text-decoration: line-through;
 }
+.sticky {
+  position: sticky;
+  top: 5.5rem;
+  z-index: 1;
+}
 
+.box {
+  display: block;
+  height: 5.5rem;
+  background-color: rgb(247, 247, 247);
+  width: 79rem;
+}
 .card {
   /* padding: 15px; */
   border: 0px solid;
@@ -239,8 +297,65 @@ span {
   box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 43px;
   transform: translate3d(0px, -1px, 0px);
 }
-.button{
+.button {
   display: flex;
   justify-content: center;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (max-width: 576px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Large screens: 3 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Large screens: 3 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* Extra large screens: 4 columns */
+    gap: 1rem;
+  }
+  .box {
+    width: auto;
+    margin-top: 2rem;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    grid-template-columns: repeat(4, 1fr); /* Extra large screens: 4 columns */
+  }
+  .box {
+    width: auto;
+  }
 }
 </style>

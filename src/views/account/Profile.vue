@@ -3,44 +3,26 @@
     <!-- Profile Section -->
     <main class="profile-section">
       <div class="profile-card">
-        <div class="title-container">
-  <div class="title">Profile Page</div>
-      </div>
-        <div class="profile-left">
-          <img :src="profileImage" alt="Profile Picture" class="profile-image" />
-          <input
-            type="file"
-            accept="image/*"
-            @change="handleImageUpload"   
-            ref="fileInput"
-            style="display: none;"
-          />
-          <button class="upload-image-btn" @click="$refs.fileInput.click()">
-            <i class="fas fa-camera"></i> Upload Image
-          </button>
-        </div>
-        <div class="profile-right">
-         
-
-          <div class="info">
-            <div class="info-title">Name:</div>
-            <div class="info-item">
-              <i class="fas fa-user"></i>
-              <span>{{ username }}</span>
-            </div>
-            <div class="info-title">Email:</div>
-            <div class="info-item">
-              <i class="fas fa-envelope"></i>
-              <span>{{ email }}</span>
-            </div>
-            <div class="info-title">Phone:</div>
-            <div class="info-item">
-              <i class="fas fa-phone"></i>
-              <span>{{ phone }}</span>
-            </div>
-            <div>
-              <button class="update-btn" @click="openEditModal">Edit Profile</button>
-            </div>
+        <img src="@/assets/profile2.png" :src="profileImage" alt="Profile Picture" />				        <h2>{{ name }}</h2>
+        
+        <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <span>{{ dob }}</span>
+          </div>
+        <div class="info">
+          <div class="info-item">
+            <i class="fas fa-user"></i>
+            <span>{{ username }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <span>{{ email }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <span>{{ phone }}</span>
+          </div><div>
+            <button class="update-btn" @click="updateProfile">Edit Profile</button>
           </div>
         </div>
       </div>
@@ -72,6 +54,10 @@
 </template>
 
 <script>
+export const getUsername=()=>{
+  const userNameElement = document.getElementById('username');
+  return userNameElement ? userNameElement.textContent : 'You'; // Return the username or default to 'You'
+}
 export default {
   data() {
     return {
