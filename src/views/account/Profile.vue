@@ -138,6 +138,7 @@ export default {
 
 .profile-card {
   width: 800px;
+  height: 500px;
   padding: 20px;
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
