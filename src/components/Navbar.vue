@@ -12,7 +12,7 @@
         @click="isMenuOpen = !isMenuOpen"
         aria-label="Toggle menu"
       >
-        <i class="bi bi-list text-white text-2xl"></i>
+        <i class="bi bi-list text-black text-2xl"></i>
       </button>
 
       <!-- Navigation Links -->
@@ -21,26 +21,43 @@
         :class="{ 'flex flex-col space-y-4 absolute top-16 left-0 bg-black w-full text-center py-4 md:static md:flex-row md:space-y-0 md:space-x-8': isMenuOpen }"
       >
         <li>
-          <router-link to="/" class="nav-link">
+          <router-link
+            to="/"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/') }"
+          >
             <i class="bi bi-house-door-fill"></i> Home
           </router-link>
         </li>
         <li>
-          <router-link to="/about-us" class="nav-link">About Us</router-link>
+          <router-link
+            to="/about-us"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/about-us') }"
+          >
+            About Us
+          </router-link>
         </li>
         <li>
-          <router-link to="/cart" class="nav-link relative">
+          <router-link
+            to="/cart"
+            class="nav-link relative"
+            :class="{ 'active-link': isActive('/cart') }"
+          >
             Cart <i class="bi bi-cart"></i>
-            <span
-              v-if="cartItemsCount > 0"
-              class="cart-badge"
-            >
+            <span v-if="cartItemsCount > 0" class="cart-badge">
               {{ cartItemsCount }}
             </span>
           </router-link>
         </li>
         <li>
-          <router-link to="/history" class="nav-link">History</router-link>
+          <router-link
+            to="/history"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/history') }"
+          >
+            History
+          </router-link>
         </li>
       </ul>
 
@@ -50,15 +67,31 @@
         :class="{ 'flex flex-col space-y-4 absolute top-16 left-0 bg-black w-full text-center py-4 md:static md:flex-row md:space-y-0 md:space-x-6': isMenuOpen }"
       >
         <li>
-          <router-link to="/account/profile" class="nav-link">
+          <router-link
+            to="/account/profile"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/account/profile') }"
+          >
             <i class="bi bi-person-circle"></i> Profile
           </router-link>
         </li>
         <li v-if="!isAuthenticated">
-          <router-link to="/auth/login" class="nav-link">Login</router-link>
+          <router-link
+            to="/auth/login"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/auth/login') }"
+          >
+            Login
+          </router-link>
         </li>
         <li v-if="!isAuthenticated">
-          <router-link to="/auth/signup" class="nav-link">Sign Up</router-link>
+          <router-link
+            to="/auth/signup"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/auth/signup') }"
+          >
+            Sign Up
+          </router-link>
         </li>
         <li v-if="isAuthenticated">
           <a
@@ -90,6 +123,9 @@ export default {
       localStorage.removeItem('user');
       this.$router.push('/auth/login');
     },
+    isActive(route) {
+      return this.$route.path === route;
+    },
   },
   created() {
     this.isAuthenticated = !!localStorage.getItem('user');
@@ -102,9 +138,9 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
-  backdrop-filter: blur(5px); /* Adds a blur effect */
-  padding: 20px 0;
+  background: linear-gradient(to bottom, rgba(230, 230, 230, 0.8), rgba(220, 216, 216, 0.3));
+  backdrop-filter: blur(10px);
+  padding: 6px;
   z-index: 1000;
 }
 
@@ -114,16 +150,25 @@ export default {
 
 .navbar .nav-link {
   text-decoration: none;
-  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: initial;
+  color: rgb(30, 28, 28);
   font-weight: 500;
   transition: color 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  gap: 8px; /* Adds spacing between icons and text */
+  gap: 8px;
 }
 
 .navbar .nav-link:hover {
-  color: #f9a825; /* Highlight color */
+  color: #f9a825;
+}
+
+/* Active link styling */
+.navbar .active-link {
+  color: #f9a825;
+  font-weight: bold;
+  border-bottom: 2px solid #f9a825; /* Add a bottom border for the active link */
 }
 
 .cart-badge {
@@ -150,7 +195,7 @@ export default {
 .menu-toggle {
   background: none;
   border: none;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 

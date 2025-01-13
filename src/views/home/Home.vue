@@ -80,4 +80,3 @@ export default {
   height: 800px;
 }
 </style>
-x
