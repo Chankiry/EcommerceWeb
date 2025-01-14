@@ -11,7 +11,7 @@
           <div class="product-info">
             <span class="product-name">{{ product.name }}</span>
             <span class="product-size">Size: {{ product.size }}</span>
-            <span class="product-quantity">Quantity: {{ product.quantity }}</span>
+            <span class="product-qty">Quantity: {{ product.qty }}</span>
             <span class="product-price">Price: {{ formatPrice(product.price) }}</span>
           </div>
         </div>

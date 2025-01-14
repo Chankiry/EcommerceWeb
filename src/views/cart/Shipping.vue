@@ -28,6 +28,8 @@
                 :key="index"
                 type="button"
                 class="py-3 Btn sm:py-4 border border-lg p-5 my-5 rounded-lg"
+                @click="shipping_id = shipping.id"
+                :class="{ active: shipping_id === shipping.id }"
                
               >
                 <ul v-if="layout === 'list'" class="list max-w-auto">
@@ -67,7 +69,7 @@
                             Phone: {{ shipping.phone }}
                           </p>
                       </div>
-                      <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Remove</button>
+                      <button @click="deleteShippingAddress(index)" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Remove</button>
                     </div>
                   </li>
                 </ul>
@@ -78,6 +80,7 @@
                 <input
                   type="text"
                   placeholder="Full name"
+                  v-model="full_name"
                   class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                 />
 
@@ -85,11 +88,13 @@
                   <input
                     type="text"
                     placeholder="Town / City"
+                    v-model="city"
                     class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                   />
                   <input
                     type="text"
                     placeholder="ZIP Code"
+                    v-model="postal_code"
                     class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                   />
                 </div>
@@ -97,18 +102,20 @@
                 <input
                   type="text"
                   placeholder="Address"
+                  v-model="address"
                   class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                 />
 
                 <input
                   type="tel"
                   placeholder="Phone"
+                  v-model="phone"
                   class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                 />
 
                 <div class="space-x-4">
                   <button
-                    @click="layout = 'list'"
+                    @click="createShippingAddress"
                     type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
@@ -140,7 +147,7 @@
                 </svg>
               </button>
 
-              <div class="bg-gray-50 p-6 rounded-lg list_pay" v-if="layout_pay === 'list_pay'">
+              <div class="bg-gray-50 p-6 rounded-lg list_pay" v-if="payments.length == 0">
                 <p class="text-gray-600 text-lg ">
                   Sorry, it seems that there are no available payment methods.
                   Please contact us if you require assistance or wish to make
@@ -148,16 +155,16 @@
                 </p>
               </div>
 
-              <!-- list shipping -->
+              <!-- list payment methods -->
               <button
                 v-for="(payment, index) in payments"
                 :key="index"
                 type="button"
                 class="py-3 btn sm:py-4 border border-lg p-5 my-5 rounded-lg"
-                @click="activeBtn = payment"
-                :class="{ active: activeBtn === payment }"
+                @click="payment_id = payment.id"
+                :class="{ active: payment_id === payment.id }"
               >
-                <ul v-if="layout_pay === 'info_pay'" class="null_pay max-w-[32.5rem]">
+                <ul v-if="layout_pay === 'list_pay'" class="null_pay max-w-[32.5rem]">
                   <li>
                     <div
                       class="flex items-center font-medium space-x-4 rtl:space-x-reverse"
@@ -168,7 +175,7 @@
                           <p
                             class="text-sm mr-[7rem] text-gray-900 truncate dark:text-black"
                           >
-                            Name Card: {{ payment.name_cardr }}
+                            Name Card: {{ payment.name_card }}
                           </p>
                           <p
                             class="text-sm mr-24 text-gray-900 truncate dark:text-black"
@@ -190,48 +197,46 @@
                           
                         </div>
                       </div>
-                      <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Remove</button>
+                      <button @click="deletePaymentMethods(index)" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Remove</button>
                     </div>
                   </li>
                 </ul>
               </button>
 
               <!-- input info -->
-              <!-- <div v-if="layout_pay === 'info_pay'" class="info space-y-6">
+              <div v-if="layout_pay == 'info_pay'" class="info space-y-6">
                 <input
                   type="text"
-                  placeholder="Full name"
+                  placeholder="Card Name"
+                  v-model="name_card"
+                  class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Card Number"
+                  v-model="card_number"
                   class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                 />
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <input
                     type="text"
-                    placeholder="Town / City"
+                    placeholder="Expire Date"
+                    v-model="expired_date"
                     class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                   />
                   <input
                     type="text"
-                    placeholder="ZIP Code"
+                    placeholder="CVV"
+                    v-model="cvv"
                     class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
                   />
                 </div>
 
-                <input
-                  type="text"
-                  placeholder="Address"
-                  class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
-                />
-
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  class="w-full p-4 text-lg border rounded-lg focus:ring-2 focus:ring-gray-200 outline-none"
-                />
-
                 <div class="space-x-4">
                   <button
-                    @click="layout_pay = 'list_pay'"
+                    @click="createPaymentMethods"
                     type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
@@ -245,14 +250,15 @@
                     Cancel
                   </button>
                 </div>
-              </div> -->
+              </div>
             </section>
 
             <button
               type="submit"
+              @click="checkout"
               class="w-full bg-olive-700 text-white py-5 px-6 rounded-lg text-xl font-medium hover:bg-olive-800 transition-colors"
             >
-              PLACE ORDER $104.90
+              PLACE ORDER ${{ totalAmount.toFixed(2) }}
             </button>
           </form>
         </div>
@@ -269,40 +275,46 @@
               </div>
             </div>
 
-            <div class="border-b border-gray-200 pb-6 mb-6">
+            <div v-for="(item, index) in cartItems" 
+                :key="index"
+                class="border-b border-gray-200 pb-6 mb-6">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                   <img
-                    :src="'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-5ADYZPQWFHHZzuZcTScE5sOhV7JhQH.png'"
+                    :src="fileUrl + item.image"
                     alt="Product"
                     class="w-16 h-16 object-cover rounded"
                   />
-                  <span class="text-lg">Men's Navy Running × 1</span>
+                  <span class="text-lg"> {{ item.name }} × {{ item.qty }}</span>
                 </div>
-                <span class="text-lg">$104.90</span>
-              </div>
-            </div>
-
-            <div class="border-b border-gray-200 pb-6 mb-6">
-              <div class="flex justify-between text-lg">
-                <span>Subtotal</span>
-                <span>$104.90</span>
+                <span class="text-lg">{{ calculateDiscount(item.price, item.discount) }}$</span>
               </div>
             </div>
 
             <div class="flex justify-between text-xl font-medium">
               <span>Total</span>
-              <span>$104.90</span>
+              <span>{{ totalAmount.toFixed(2) }}$</span>
             </div>
           </section>
         </div>
+
       </div>
     </div>
+
+    <!-- Receipt Modal -->
+    <ReceiptModal
+      :isVisible="isReceiptModalVisible"
+      :receipt="selectedReceipt"
+      @close="closeReceiptModal"
+    />
   </div>
 </template>
 
 <script>
 import { reactive } from "vue";
+import CartService from './service';
+import ReceiptModal from '../history/ReceiptModal.vue'; // Import the ReceiptModal component
+
 
 const form = reactive({
   fullName: "",
@@ -317,46 +329,164 @@ const handleSubmit = () => {
 };
 
 export default {
+  components: {
+    ReceiptModal, // Register the ReceiptModal component
+  },
   data() {
     return {
-      shippings: [
-        {
-          full_name: "kiry",
-          address: "toulkok",
-          city: "Phnom Penh",
-          postal_code: "1111",
-          phone: "096958147",
-        },
-        {
-          full_name: "Bakal",
-          address: "toulkok",
-          city: "Phnom Penh",
-          postal_code: "2222",
-          phone: "096958781",
-        },
-      ],
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
+
+      full_name: "",
+      address: "",
+      city: "",
+      postal_code: "",
+      phone: "",
+      shippings: [],
 
       layout: "list",
       layout_pay:"list_pay",
       contents: null,
 
-      payments: [
-        {
-          name_cardr: "Visa",
-          card_number: "1234254433",
-          expired_date: "12/25",
-          cvv: "1234",
-        },
-        // {
-        //   name_cardr: "Card",
-        //   card_number: "1234228433",
-        //   expired_date: "20/25",
-        //   cvv: "12354",
-        // },
-      ],
+      name_card: '',
+      card_number: '',
+      expired_date: '',
+      cvv: '',
+      payments: [],
+
+      cartItems: [],
+
+      shipping_id: 0,
+      payment_id: 0,
+
     };
   },
+  computed: {
+    totalAmount() {
+      return this.cartItems.reduce(
+        (total, item) => total + parseFloat(this.calculateDiscount(item.price, item.discount)) * item.qty,
+        0
+      );
+    },
+  },
+  async created() {
+    await this.listing();
+  },
   methods: {
+    async listing() {
+      try {
+        const resShipping = await CartService.listShippingAddress(); // Pass appropriate dates
+        const resPayments = await CartService.listPaymentMethods(); // Pass appropriate dates
+        const response = await CartService.listingProductCart(); // Pass appropriate dates
+        this.cartItems = response;
+        this.shippings = resShipping;
+        this.payments = resPayments;
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async createShippingAddress() {
+      try {
+        // Prepare the updated profile data
+        const body = {
+          full_name: this.full_name,
+          address: this.address,
+          postal_code: this.postal_code,
+          phone: this.phone,
+          city: this.city
+        };
+
+        // Call the updateProfile method from ProfileService
+        const response = await CartService.createShippingAddress(body);
+        this.layout = 'list';
+        this.shippings.push(response.data);
+
+        this.closeEditModal();
+        alert('Profile updated successfully!');
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+        alert('Failed to update profile. Please try again.');
+      }
+    },
+
+    async createPaymentMethods() {
+      try {
+        // Prepare the updated profile data
+        const body = {
+          name_card: this.name_card,
+          card_number: this.card_number,
+          expired_date: this.expired_date,
+          cvv: this.cvv
+        };
+
+        // Call the updateProfile method from ProfileService
+        const response = await CartService.createPaymentMethods(body);
+        this.layout_pay = 'list_pay';
+        this.payments.push(response.data);
+
+        this.closeEditModal();
+        alert('Profile updated successfully!');
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+        alert('Failed to update profile. Please try again.');
+      }
+    },
+
+    async deleteShippingAddress(index) {
+      const id = this.shippings[index].id;
+      try {
+        const response = await CartService.deleteShippingAddress(id); // Pass appropriate dates
+        this.shippings.splice(index, 1);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+
+    },
+
+    async deletePaymentMethods(index) {
+      const id = this.payments[index].id;
+      try {
+        const response = await CartService.deletePaymentMethods(id); // Pass appropriate dates
+        this.payments.splice(index, 1);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+
+    },
+
+    async checkout() {
+      try {
+        // Prepare the updated profile data
+        const body = {
+          shipping_id: this.shipping_id,
+          payment_id: this.payment_id
+        };
+
+        // Call the updateProfile method from ProfileService
+        const response = await CartService.checkout(body);
+        this.$route.push('/history')
+
+        this.closeEditModal();
+        alert('Profile updated successfully!');
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+        alert('Failed to update profile. Please try again.');
+      }
+    },
+
+    calculateDiscount(price,discount) {
+      return (price - (price * (discount/100))).toFixed(2); // 20% discount
+    },
+    
     setActiveBtn(Btn) {
       this.Active = Btn; 
     },

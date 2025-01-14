@@ -8,7 +8,7 @@
         class="history-item"
         @click="handleHistoryItemClick(historyItem, $event)"
       >
-        <span class="history-date">Date: {{ formatDate(historyItem.date) }}</span>
+        <span class="history-created_at">Date: {{ formatDate(historyItem.created_at) }}</span>
         <div
           v-for="product in historyItem.products"
           :key="product.id"
@@ -21,9 +21,9 @@
             <router-link
               :to="{ name: 'ViewProduct', params: { id: product.id } }">
               <img
-                :src="product.image"
+                :src="fileUrl + product.product_image"
                 :alt="product.name"
-                class="product-image"
+                class="product-product_image"
                 loading="lazy"
               />
             </router-link>
@@ -41,7 +41,7 @@
           </div>
           <div class="product-pricing">
             <span class="product-price">{{ formatPrice(product.price) }}</span>
-            <span class="product-quantity">x{{ product.quantity }}</span>
+            <span class="product-qty">x{{ product.qty }}</span>
           <div><span class="discount-price">{{ calculateDiscountPrice(product.price) }}</span></div>  
           </div>
         </div>
@@ -63,6 +63,7 @@
 
 <script>
 import ReceiptModal from './ReceiptModal.vue'; // Import the ReceiptModal component
+import HistoryService from './service'; // Import the service with the listing function
 
 export default {
   name: 'History',
@@ -71,90 +72,29 @@ export default {
   },
   data() {
     return {
-      historyItems: [
-        {
-          id: 1,
-          date: new Date(),
-          totalAmount: 499.95,
-          products: [
-            {
-              id: 1,
-              image: '/src/assets/images/shoes01.png',
-              name: 'Jordan',
-              size: 40,
-              color: 'red', // Predefined color
-              price: 99.99,
-              quantity: 5,
-            },
-          ],
-        },
-        {
-          id: 2,
-          date: new Date(new Date().setDate(new Date().getDate() - 1)),
-          totalAmount: 719.96,
-          products: [
-            {
-              id: 1,
-              image: '/src/assets/images/shoes02.png',
-              name: 'Air Max',
-              size: 42,
-              color: '#3498db', // Hexadecimal value
-              price: 129.99,
-              quantity: 3,
-            },
-            {
-              id: 2,
-              image: '/src/assets/images/shoes03.png',
-              name: 'Yeezy',
-              size: 41,
-              color: 'Black',
-              price: 149.99,
-              quantity: 2,
-            },
-          ],
-        },
-        {
-          id: 3,
-          date: new Date(new Date().setDate(new Date().getDate() - 7)),
-          totalAmount: 859.94,
-          products: [
-            {
-              id: 1,
-              image: '/src/assets/images/shoes03.png',
-              name: 'Yeezy',
-              size: 41,
-              color: 'black',
-              price: 219.99,
-              quantity: 2,
-            },
-            {
-              id: 2,
-              image: '/src/assets/images/shoes04.png',
-              name: 'DUNK',
-              size: 43,
-              color: '#3498db',
-              price: 159.99,
-              quantity: 3,
-            },
-            {
-              id: 3,
-              image: '/src/assets/images/shoes05.png',
-              name: 'Ultraboost',
-              size: 42,
-              color: 'White',
-              price: 219.99,
-              quantity: 1,
-            },
-          ],
-        },
-      ],
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL, // Add fileUrl here
+      historyItems: [],
       isReceiptModalVisible: false,
       selectedReceipt: null,
     };
   },
+  async created() {
+    await this.listing();
+  },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString('en-US', {
+    async listing() {
+      try {
+        const response = await HistoryService.listing(); // Pass appropriate dates
+        this.historyItems = response;
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
+    formatDate(created_at) {
+      return new Date(created_at).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -181,7 +121,7 @@ export default {
     },
     calculateDiscountedTotal(historyItem) {
       return historyItem.products.reduce((total, product) => {
-        return total + (product.price * 0.8 * product.quantity);
+        return total + (product.price * 0.8 * product.qty);
       }, 0);
     },
     handleHistoryItemClick(receipt, event) {
@@ -242,7 +182,7 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.history-date {
+.history-created_at {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-color);
@@ -276,11 +216,11 @@ export default {
   color: inherit; /* Inherit text color */
 }
 
-.product-image:hover {
+.product-product_image:hover {
   opacity: 0.8;
 }
 
-.product-image {
+.product-product_image {
   width: 80px;
   height: 80px;
   border-radius: 0.5rem;
@@ -336,7 +276,7 @@ export default {
   
 }
 
-.product-quantity {
+.product-qty {
   font-size: 0.875rem;
   color: #666;
   margin-left: 0.5rem;

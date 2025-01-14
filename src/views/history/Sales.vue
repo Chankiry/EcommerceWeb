@@ -42,7 +42,7 @@
           </div>
           <div class="product-pricing">
             <span class="product-price">{{ formatPrice(product.price) }}</span>
-            <span class="product-quantity">x{{ product.quantity }}</span>
+            <span class="product-qty">x{{ product.qty }}</span>
           <div><span class="discount-price">{{ calculateDiscountPrice(product.price) }}</span></div>  
           </div>
         </div>
@@ -88,7 +88,7 @@ export default {
               size: 40,
               color: 'red', // Predefined color
               price: 99.99,
-              quantity: 5,
+              qty: 5,
             },
           ],
         },
@@ -108,7 +108,7 @@ export default {
                 size: 42,
                 color: '#3498db', // Hexadecimal value
                 price: 129.99,
-                quantity: 3,
+                qty: 3,
             },
             {
               id: 2,
@@ -117,7 +117,7 @@ export default {
               size: 41,
               color: 'Black',
               price: 149.99,
-              quantity: 2,
+              qty: 2,
             },
           ],
         },
@@ -137,7 +137,7 @@ export default {
               size: 41,
               color: 'black',
               price: 219.99,
-              quantity: 2,
+              qty: 2,
             },
             {
               id: 2,
@@ -146,7 +146,7 @@ export default {
               size: 43,
               color: '#3498db',
               price: 159.99,
-              quantity: 3,
+              qty: 3,
             },
             {
               id: 3,
@@ -155,7 +155,7 @@ export default {
               size: 42,
               color: 'White',
               price: 219.99,
-              quantity: 1,
+              qty: 1,
             },
           ],
         },
@@ -184,7 +184,7 @@ export default {
     },
     calculateDiscountedTotal(historyItem) {
       return historyItem.products.reduce((total, product) => {
-        return total + (product.price * 0.8 * product.quantity);
+        return total + (product.price * 0.8 * product.qty);
       }, 0);
     },
     openReceiptModal(receipt) {
@@ -384,7 +384,7 @@ export default {
   
 }
 
-.product-quantity {
+.product-qty {
   font-size: 0.875rem;
   color: #666;
   margin-left: 0.5rem;
