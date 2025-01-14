@@ -16,7 +16,7 @@
           <p>
             Welcome to our E-commerce store! We offer creative products, solutions, and services to help make your projects a success.
           </p>
-        <button class="hero-button"><router-link to="contactus"> Contact Us</router-link></button>
+          <router-link to="contactus" class="hero-button">Contact Us</router-link>
       </div>
       <div class="hero-image">
         <img src="@/assets/abtus 1.png" alt="E-commerce illustration" style="width: 1000px; height: auto;" />
@@ -256,7 +256,7 @@ h1, h2, h3 {
 }
 
 .about-us-overlay {
-  position: ax`bsolute;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%; /* Match parent width */
@@ -310,13 +310,72 @@ h1, h2, h3 {
 }
 
 .hero-button {
-  padding: 10px 20px;
-  background-color: #6c757d;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #6c757d, #495057);
   color: #fff;
+  font-size: 16px;
+  font-weight: 600;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+.hero-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease, opacity 0.6s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-button:hover {
+  background: linear-gradient(90deg, #495057, #6c757d);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.hero-button:hover::before {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.hero-button:active::before {
+  transform: translate(-50%, -50%) scale(4);
+  opacity: 0;
+}
+
+.hero-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hero-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-button:hover::after {
+  opacity: 1;
+}
+
 .hero-image {
   position: relative;
 }
