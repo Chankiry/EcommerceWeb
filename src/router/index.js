@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ViewProduct from '../views/home/products/view_product/ViewProduct.vue';
-
+import PageAdmin from '@/Admin/Page-Admin.vue';
 const routes = [
   {
     path: '/', redirect: '/home'
@@ -76,6 +76,16 @@ const routes = [
       path: '/Clothes',
       name: 'Clothes',
       component: () => import('../views/home/products/Clothes.vue'),
+    },
+    {
+      path: '/admin',
+      name: 'AdminPage',
+      component: PageAdmin,
+    },
+    {
+      path: '/account/Profile-Admin',
+      name: 'Profile-Admin',
+      component: () => import('../views/account/Profile-Admin.vue'),
     },
   
 ];

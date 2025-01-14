@@ -4,7 +4,7 @@
     <main class="profile-section">
       <div class="profile-card">
         <!-- Title Section -->
-        <div class="title">Profile Page</div>
+        <div class="title">Admin Page</div>
 
         <div class="profile-content">
           <!-- Left Section (Image) -->
@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       profileImage: "https://via.placeholder.com/150", // Replace with actual profile picture URL
-      username: "Nay Sovannarith",
+      username: "Sovannarith",
       email: "narith2004@gmail.com",
       phone: "012345678",
       isEditing: false,

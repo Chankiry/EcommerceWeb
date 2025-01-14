@@ -1,45 +1,59 @@
 <template>
   <div class="h-auto bg-gray-100">
-    <nav class="w-64  text-black p-4 sticky">
-    <ul class="space-y-4">
-      <li v-for="item in items" :key="item.name">
-        <router-link :to="item.route" class="p-2 border-bottom flex rounded hover:bg-gray-500 transition duration-300">
-          <img :src="item.image" alt="image" class="img">
-          <div class="mt-5 text-center">{{ item.name }}</div>
-        </router-link>
-      </li>
-    </ul>
-  </nav>
+    <nav class="w-64 text-black p-4 sticky">
+      <ul class="space-y-4">
+        <li v-for="item in items" :key="item.name">
+          <router-link
+            :to="item.route"
+            class="p-2 border-bottom flex rounded hover:bg-gray-500 transition duration-300"
+            active-class="active"
+          >
+            <img :src="item.image" alt="image" class="img" />
+            <div class="mt-5 text-center">{{ item.name }}</div>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
 <script>
-import shoes from '../assets/images/a.png'
-import clothes from '../assets/images/q.png'
-import handbag from '../assets/images/v1.png'
-import wallet from '../assets/images/b1.png'
+import shoes from "../assets/images/a.png";
+import clothes from "../assets/images/q.png";
+import handbag from "../assets/images/v1.png";
+import wallet from "../assets/images/b1.png";
+
 export default {
   data() {
     return {
       items: [
-        { image:shoes, name: 'Shoes',    route: '/home/shoes' },
-        { image:handbag,name: 'HandBags', route: '/home/hand-bags' },
-        { image:wallet,name: 'Wallets',  route: '/home/wallets' },
-        { image:clothes,name: 'Clothes',  route: '/home/clothes' }
-      ]
+        { image: shoes, name: "Shoes", route: "/home/shoes" },
+        { image: handbag, name: "HandBags", route: "/home/hand-bags" },
+        { image: wallet, name: "Wallets", route: "/home/wallets" },
+        { image: clothes, name: "Clothes", route: "/home/clothes" },
+      ],
     };
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.sticky{
+.sticky {
   position: sticky;
-  top: 5.5rem;
+  top: 3rem;
 }
-.img{
+
+.img {
   height: 3.5rem;
   width: 4rem;
 }
 
+.active {
+  background-color: #70767f; /* A darker gray background for the active link */
+  color: white; /* Ensure text contrast */
+}
+
+.hover\:bg-gray-500:hover {
+  background-color: #6d7179;
+}
 </style>
