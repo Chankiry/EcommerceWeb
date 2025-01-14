@@ -1,6 +1,6 @@
 <template>
   <div class="cart-page">
-  <div class="Title">Checkout Total</div>
+    <div class="Title">Checkout Total</div>
     <div class="cart-items-container">
       <div class="cart-header">
         <h2>{{ cartItems.length }} Items</h2>
@@ -8,30 +8,31 @@
       <div class="cart-item" v-for="(item, index) in cartItems" :key="index">
         <img :src="item.image" alt="Shoe Image" class="item-image" />
         <div class="item-details">
-         <div class="name-item">{{ item.name }}</div>
-          <p class="price">{{ item.price }}$</p>
-         
+          <div class="name-item">{{ item.name }}</div>
+          <div class="price-container">
+            <p class="original-price">{{ item.price }}$</p>
+            <p class="discount-price">{{ calculateDiscount(item.price) }}$</p>
+          </div>
+          <p class="product-color">Color: {{ item.color }}</p>
+          <p class="product-size">Size: {{ item.size }}</p>
           <div class="quantity-control">
             <button @click="decreaseQuantity(index)">-</button>
             <span>{{ item.quantity }}</span>
             <button @click="increaseQuantity(index)">+</button>
           </div>
         </div>
-        <p class="total">{{ (item.price * item.quantity).toFixed(2) }}$</p>
+        <p class="total">{{ (calculateDiscount(item.price) * item.quantity).toFixed(2) }}$</p>
         <button class="remove-item" @click="removeItem(index)">&#x2715;</button>
       </div>
       <div class="checkout-total">
-      <h2>Total:  {{ totalAmount.toFixed(2) }}$</h2>
+        <h2>Total: {{ totalAmount.toFixed(2) }}$</h2>
+      </div>
     </div>
-    </div>
-    <!-- New Checkout Button -->
     <div class="checkout-button-container">
-      <router-link
-      :to="'shipping'" class="checkout-button" >
+      <router-link :to="'shipping'" class="checkout-button">
         Proceed to Checkout
-    </router-link>
+      </router-link>
     </div>
-
   </div>
 </template>
 
@@ -46,26 +47,35 @@ export default {
       cartItems: [
         {
           name: "Colorful Sneakers",
+          size: "7",
+          color: "Blue",
           price: 12,
           quantity: 1,
           image: shoes01,
         },
         {
           name: "Pastel Shoes",
+          size: "8",
+          color: "Pink",
           price: 10,
           quantity: 1,
           image: shoes02,
         },
       ],
-      
     };
   },
   computed: {
     totalAmount() {
-      return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+      return this.cartItems.reduce(
+        (total, item) => total + parseFloat(this.calculateDiscount(item.price)) * item.quantity,
+        0
+      );
     },
   },
   methods: {
+    calculateDiscount(price) {
+      return (price * 0.8).toFixed(2); // 20% discount
+    },
     increaseQuantity(index) {
       this.cartItems[index].quantity += 1;
     },
@@ -77,10 +87,6 @@ export default {
     removeItem(index) {
       this.cartItems.splice(index, 1);
     },
-    handleCheckout() {
-      // Replace this with navigation to a checkout page or a message
-      alert("Proceeding to checkout!");
-    },
   },
 };
 </script>
@@ -88,7 +94,7 @@ export default {
 <style scoped>
 .Title {
   text-align: center;
-  font-weight: bolder ;
+  font-weight: bolder;
   font-size: 20px;
 }
 .cart-page {
@@ -152,16 +158,33 @@ export default {
   font-size: 1.1rem;
   color: #333;
 }
-.price {
-  color: #7cbc8d;
-  font-size: 1.2rem;
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 5px 0;
+}
+.original-price {
+  color: #333;
+  font-size: 1rem;
+  text-decoration: line-through;
+  text-decoration-color: #da4141;
+}
+.discount-price {
+  color: #333;
+  font-size: 1.2rem;
   font-weight: bold;
+}
+.product-color, .product-size {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 2px 0;
 }
 .quantity-control {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 8px;
 }
 .quantity-control button {
   border: none;
@@ -188,7 +211,6 @@ export default {
   cursor: pointer;
   transition: color 0.3s ease;
   margin-left: 1%;
-
 }
 .remove-item:hover {
   color: #a90609;
@@ -199,11 +221,10 @@ export default {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: right;
-  color: #7cbc8d;
+  color: #333;
 }
 .checkout-button-container {
   text-align: right;
-
   margin: 20px 0;
 }
 .checkout-button {
@@ -215,6 +236,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
 }
 .checkout-button:hover {
   background-color: #0056b3;
