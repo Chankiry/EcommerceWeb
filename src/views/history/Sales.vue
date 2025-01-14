@@ -43,12 +43,13 @@
           <div class="product-pricing">
             <span class="product-price">{{ formatPrice(product.price) }}</span>
             <span class="product-quantity">x{{ product.quantity }}</span>
+          <div><span class="discount-price">{{ calculateDiscountPrice(product.price) }}</span></div>  
           </div>
         </div>
         <div class="total-amount">
-          <span>Total Amount:</span>
-          <span class="total-price">{{ formatPrice(historyItem.totalAmount) }}</span>
-        </div>
+        <span>Total Amount (with discount):</span>
+        <span class="total-price">{{ formatPrice(calculateDiscountedTotal(historyItem)) }}</span>
+      </div>
       </button>
     </div>
     <!-- Receipt Modal -->
@@ -176,6 +177,15 @@ export default {
     },
     formatPrice(price) {
       return `$${price.toFixed(2)}`;
+    },
+    calculateDiscountPrice(price) {
+      const discountedPrice = price * 0.8; // 20% off
+      return this.formatPrice(discountedPrice);
+    },
+    calculateDiscountedTotal(historyItem) {
+      return historyItem.products.reduce((total, product) => {
+        return total + (product.price * 0.8 * product.quantity);
+      }, 0);
     },
     openReceiptModal(receipt) {
       this.selectedReceipt = receipt;
@@ -328,50 +338,68 @@ export default {
 .product-details {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
+
 .product-name {
   font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--text-color);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .product-size {
-  font-size: 1rem;
-  color: #6b7280;
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
-.product-pricing {
+.product-color {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  align-items: center;
+}
+
+.color-indicator {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.color-name {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.discount-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #10b981; /* Green color for discount */
+
+  
 }
 
 .product-price {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--text-color);
+  font-size: 1rem;
+  color: #6b7280;
+  text-decoration: line-through;
+  
 }
 
 .product-quantity {
-  font-size: 1rem;
-  color: #6b7280;
+  font-size: 0.875rem;
+  color: #666;
+  margin-left: 0.5rem;
 }
 
 .total-amount {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
   margin-top: 1rem;
-  font-size: 1.125rem;
-  color: var(--text-color);
+  font-size: 1rem;
+  margin-left: 72%;
 }
 
 .total-price {
   font-weight: 600;
-  color: var(--primary-color);
+  margin-left: 0.5rem;
 }
+
 
 </style>
