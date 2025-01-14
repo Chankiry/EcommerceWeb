@@ -55,7 +55,7 @@
             to="/history"
             class="nav-link"
             :class="{ 'active-link': isActive('/history') }"
-            @click.native="navigateAndReload('/Sales')"
+            @click.native="navigateAndReload('/history')"
           >
             History
           </router-link>

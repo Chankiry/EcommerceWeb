@@ -4,13 +4,13 @@
       <button class="close-button" @click="closeModal">&times;</button>
       <h2>Receipt</h2>
       <div class="receipt-details">
-        <p><strong>Date:</strong> {{ formatDate(receipt.date) }}</p>
+        <p><strong>Date:</strong> {{ formatDate(receipt.created_at) }}</p>
         <div v-for="product in receipt.products" :key="product.id" class="product-item">
-          <img :src="product.image" :alt="product.name" class="product-image" />
+          <img :src="product.product_image" :alt="product.name" class="product-product_image" />
           <div class="product-info">
             <span class="product-name">{{ product.name }}</span>
             <span class="product-size">Size: {{ product.size }}</span>
-            <span class="product-quantity">Quantity: {{ product.quantity }}</span>
+            <span class="product-qty">Quantity: {{ product.qty }}</span>
             <span class="product-price">Price: {{ formatPrice(product.price) }}</span>
           </div>
         </div>
@@ -39,8 +39,8 @@ export default {
     closeModal() {
       this.$emit('close');
     },
-    formatDate(date) {
-      return new Date(date).toLocaleString('en-US', {
+    formatDate(created_at) {
+      return new Date(created_at).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -100,7 +100,7 @@ export default {
   margin-bottom: 1rem;
 }
 
-.product-image {
+.product-product_image {
   width: 60px;
   height: 60px;
   border-radius: 0.5rem;

@@ -89,8 +89,8 @@
                     style="width: 2.5rem; height: 2.5rem"
                     class="mx-4 rounded-full btn"
                     type="button"
-                    @click="activeBtnColor = color"
-                    :class="{ activeColor: activeBtnColor === color }"
+                    @click="color_id = color.id"
+                    :class="{ activeColor: color_id === color.id }"
                     :style="{ backgroundColor: color.color }"
                   ></button>
                 </div>
@@ -107,8 +107,8 @@
                   style="width: 3rem; height: 2rem"
                   class="mx-3 rounded-lg mt-[-3px] btn"
                   type="button"
-                  @click="activeBtn = size"
-                  :class="{ active: activeBtn === size }"
+                  @click="size_id = size.id"
+                  :class="{ active: size_id === size.id }"
                 >
                   {{ size.name }}
                 </button>
@@ -118,17 +118,18 @@
                   <button type="button" class="p-2" @click="decrement">
                     -
                   </button>
-                  <span>{{ count }}</span>
+                  <span>{{ qty }}</span>
                   <button type="button" class="p-2" @click="increment">
                     +
                   </button>
                 </div>
 
                 <button
+                  @click="addToCart"
                   type="submit"
                   class="button mt-5 text-black bg-gray-900 hover:bg-gray-700 rounded-lg px-5 py-2.5"
                 >
-                  Add to bag
+                  Add to Cart
                 </button>
               </div>
             </form>
@@ -223,7 +224,7 @@ export default {
   },
   data() {
     return {
-      count: 1,
+      qty: 1,
       selectedImageIndex: 0,
       product: {
         productImages: [], // Initialize as an empty array
@@ -248,8 +249,8 @@ export default {
         },
       ],
       newReview: "",
-      activeBtn: "",
-      activeBtnColor: "",
+      size_id: "",
+      color_id: "",
       loading: true,
       error: null,
       fileUrl: import.meta.env.VITE_FILE_BASE_URL, // Add fileUrl here
@@ -264,7 +265,6 @@ export default {
   async mounted() {
     // Access the id from the route parameters
     this.productId = this.$route.params.id;
-    console.log('Product ID:', this.productId);
 
     // Fetch product details
     await this.view(this.productId);
@@ -301,22 +301,42 @@ export default {
         this.loading = false;
       }
     },
+    async addToCart() {
+      try {
+        // Prepare the updated profile data
+        const body = {
+          size_id: this.size_id,
+          color_id: this.color_id,
+          qty: this.qty
+        };
+
+        // Call the updateProfile method from ProfileService
+        const response = await ProductService.addToCart(this.productId,body);
+        
+
+        this.closeEditModal();
+        alert('Profile updated successfully!');
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+        alert('Failed to update profile. Please try again.');
+      }
+    },
     increment() {
-      this.count++;
+      this.qty++;
     },
     decrement() {
-      if (this.count > 1) {
-        this.count--;
+      if (this.qty > 1) {
+        this.qty--;
       }
     },
     addToBag() {
-      alert(`Added ${this.count} items to the bag.`);
+      alert(`Added ${this.qty} items to the bag.`);
     },
     selectImage(index) {
       this.selectedImageIndex = index;
     },
     setActiveBtn(btn) {
-      this.activeBtn = btn;
+      this.size_id = btn;
     },
     handleSubmit() {
       this.submitReview();

@@ -6,23 +6,23 @@
         <h2>{{ cartItems.length }} Items</h2>
       </div>
       <div class="cart-item" v-for="(item, index) in cartItems" :key="index">
-        <img :src="item.image" alt="Shoe Image" class="item-image" />
+        <img :src="fileUrl + item.image" alt="Shoe Image" class="item-image" />
         <div class="item-details">
           <div class="name-item">{{ item.name }}</div>
           <div class="price-container">
             <p class="original-price">{{ item.price }}$</p>
-            <p class="discount-price">{{ calculateDiscount(item.price) }}$</p>
+            <p class="discount-price">{{ calculateDiscount(item.price, item.discount) }}$</p>
           </div>
           <p class="product-color">Color: {{ item.color }}</p>
           <p class="product-size">Size: {{ item.size }}</p>
-          <div class="quantity-control">
+          <div class="qty-control">
             <button @click="decreaseQuantity(index)">-</button>
-            <span>{{ item.quantity }}</span>
+            <span>{{ item.qty }}</span>
             <button @click="increaseQuantity(index)">+</button>
           </div>
         </div>
-        <p class="total">{{ (calculateDiscount(item.price) * item.quantity).toFixed(2) }}$</p>
-        <button class="remove-item" @click="removeItem(index)">&#x2715;</button>
+        <p class="total">{{ (calculateDiscount(item.price, item.discount) * item.qty).toFixed(2) }}$</p>
+        <button class="remove-item" @click="removeFromCart(index)">&#x2715;</button>
       </div>
       <div class="checkout-total">
         <h2>Total: {{ totalAmount.toFixed(2) }}$</h2>
@@ -37,55 +37,77 @@
 </template>
 
 <script>
-import shoes01 from "../../assets/images/shoes01.png";
-import shoes02 from "../../assets/images/shoes02.png";
+import CartService from './service';
 
 export default {
   name: "Cart",
   data() {
     return {
-      cartItems: [
-        {
-          name: "Colorful Sneakers",
-          size: "7",
-          color: "Blue",
-          price: 12,
-          quantity: 1,
-          image: shoes01,
-        },
-        {
-          name: "Pastel Shoes",
-          size: "8",
-          color: "Pink",
-          price: 10,
-          quantity: 1,
-          image: shoes02,
-        },
-      ],
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
+      cartItems: [],
     };
   },
   computed: {
     totalAmount() {
       return this.cartItems.reduce(
-        (total, item) => total + parseFloat(this.calculateDiscount(item.price)) * item.quantity,
+        (total, item) => total + parseFloat(this.calculateDiscount(item.price, item.discount)) * item.qty,
         0
       );
     },
   },
+  async created() {
+    await this.listing();
+  },
   methods: {
-    calculateDiscount(price) {
-      return (price * 0.8).toFixed(2); // 20% discount
-    },
-    increaseQuantity(index) {
-      this.cartItems[index].quantity += 1;
-    },
-    decreaseQuantity(index) {
-      if (this.cartItems[index].quantity > 1) {
-        this.cartItems[index].quantity -= 1;
+    async listing() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await CartService.listingProductCart(); // Pass appropriate dates
+        this.cartItems = response;
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
       }
     },
-    removeItem(index) {
-      this.cartItems.splice(index, 1);
+    async updateQty(id, qty) {
+      try {
+        const response = await CartService.addQty(id, qty); // Pass appropriate dates
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
+    calculateDiscount(price,discount) {
+      return (price - (price * (discount/100))).toFixed(2); // 20% discount
+    },
+    async increaseQuantity(index) {
+      this.cartItems[index].qty += 1;
+      await this.updateQty(this.cartItems[index].id, this.cartItems[index].qty);
+    },
+    async decreaseQuantity(index) {
+      if (this.cartItems[index].qty > 1) {
+        this.cartItems[index].qty -= 1;
+        await this.updateQty(this.cartItems[index].id, this.cartItems[index].qty);
+
+      }
+    },
+    async removeFromCart(index) {
+      const id = this.cartItems[index].id;
+      try {
+        const response = await CartService.removeFromCart(id); // Pass appropriate dates
+        this.cartItems.splice(index, 1);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+
     },
   },
 };
@@ -180,13 +202,13 @@ export default {
   font-size: 0.9rem;
   margin: 2px 0;
 }
-.quantity-control {
+.qty-control {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 8px;
 }
-.quantity-control button {
+.qty-control button {
   border: none;
   background: #e0e0e0;
   border-radius: 5px;
@@ -195,7 +217,7 @@ export default {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-.quantity-control button:hover {
+.qty-control button:hover {
   background: #9c9a9a;
 }
 .total {
