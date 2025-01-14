@@ -10,6 +10,7 @@
         <div class="item-details">
          <div class="name-item">{{ item.name }}</div>
           <p class="price">{{ item.price }}$</p>
+         
           <div class="quantity-control">
             <button @click="decreaseQuantity(index)">-</button>
             <span>{{ item.quantity }}</span>
@@ -56,6 +57,7 @@ export default {
           image: shoes02,
         },
       ],
+      
     };
   },
   computed: {
