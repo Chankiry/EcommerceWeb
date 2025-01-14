@@ -1,15 +1,14 @@
 <template>
   <div class="h-auto bg-gray-100">
-    <nav class="w-64 text-black p-4 sticky">
+    <nav class="t-black p-4 sticky w-[18rem]">
       <ul class="space-y-4">
         <li v-for="item in items" :key="item.name">
           <router-link
             :to="item.route"
-            class="p-2 border-bottom flex rounded hover:bg-gray-500 transition duration-300"
-            active-class="active"
+            class="p-2 border-bottom flex rounded-3xl border hover:bg-gray-200 hover:text-gray-600 font-bold transition duration-300 justify-center space-x-3"
           >
             <img :src="item.image" alt="image" class="img" />
-            <div class="mt-5 text-center">{{ item.name }}</div>
+            <div class="mt-4">{{ item.name }}</div>
           </router-link>
         </li>
       </ul>
@@ -22,7 +21,6 @@ import shoes from "../assets/images/a.png";
 import clothes from "../assets/images/q.png";
 import handbag from "../assets/images/v1.png";
 import wallet from "../assets/images/b1.png";
-
 export default {
   data() {
     return {
@@ -40,20 +38,10 @@ export default {
 <style scoped>
 .sticky {
   position: sticky;
-  top: 3rem;
+  top: 5.5rem;
 }
-
 .img {
   height: 3.5rem;
   width: 4rem;
-}
-
-.active {
-  background-color: #70767f; /* A darker gray background for the active link */
-  color: white; /* Ensure text contrast */
-}
-
-.hover\:bg-gray-500:hover {
-  background-color: #6d7179;
 }
 </style>
