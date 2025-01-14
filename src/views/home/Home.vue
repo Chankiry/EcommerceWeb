@@ -17,7 +17,7 @@
         </div>  
       </div>
     </div>
-
+    
     <div class="w-full h-full flex">
       <SideNav />
       <div class="flex-1 flex flex-col items-center justify-center">
@@ -30,6 +30,7 @@
           Go to Admin Page
         </router-link>
       </div>
+
     </div>
   </div>
 </template>
@@ -106,4 +107,6 @@ export default {
 .fixed {
   position: fixed;
 }
+
+
 </style>
