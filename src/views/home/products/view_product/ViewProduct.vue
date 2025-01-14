@@ -1,5 +1,11 @@
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
   <main class="flex font-mono">
     <div class="block w-full">
       <div class="m-10 flex review">
@@ -38,6 +44,7 @@
             </h1>
             <p class="font-bold text-2xl">${{ currentImage.price }}</p>
 
+            <!-- stars -->
             <div class="flex items-center mt-2.5 mb-5">
               <div class="flex items-center space-x-1">
                 <svg
@@ -59,32 +66,44 @@
 
             <p class="my-3">{{ currentImage.productDescription }}</p>
 
+            <!-- color -->
             <form @submit.prevent="addToBag">
-              <div class="my-10 flex">
-                <h3 class="mr-4">Color:</h3>
+              <div class="my-4 flex">
+                <h3 class="mr-4 mt-3">Color:</h3>
                 <div class="flex">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                    style="
-                      width: 40rem;
-                      height: 5rem;
-                      margin-top: -0.8rem;
-                      margin-left: -17rem;
-                    "
-                  >
-                    <circle
-                      v-for="(color, index) in product.colors"
-                      :key="index"
-                      :cx="50 + index * 400"
-                      cy="150"
-                      r="140"
-                      :fill="color"
-                      class="cursor-pointer"
-                      @click="selectColor(color)"
-                    />
-                  </svg>
+                  <button
+                    v-for="(color, index) in product.colors"
+                    :key="index"
+                    :cx="50 + index * 400"
+                    cy="150"
+                    r="140"
+                    :fill="color"
+                    style="width: 2.5rem; height: 2.5rem"
+                    class="mx-4 rounded-full btn"
+                    type="button"
+                    @click="activeBtnColor = color"
+                    :class="{ activeColor: activeBtnColor === color }"
+                    :style="{ backgroundColor: color.code }"
+                  ></button>
                 </div>
+              </div>
+              <div class="flex my-5">
+                <h3 class="mr-4">Size:</h3>
+                <button
+                  v-for="(size, index) in product.sizes"
+                  :key="index"
+                  :cx="50 + index * 400"
+                  cy="150"
+                  r="140"
+                  :fill="color"
+                  style="width: 3rem; height: 2rem"
+                  class="mx-3 rounded-lg mt-[-3px] btn"
+                  type="button"
+                  @click="activeBtn = size"
+                  :class="{ active: activeBtn === size }"
+                >
+                  {{ size.name }}
+                </button>
               </div>
               <div class="flex">
                 <div class="counter flex items-center mx-10">
@@ -135,21 +154,15 @@
         </div>
 
         <!-- Popup -->
-        <button
-          class="btn btn-secondary p-3 w-[10rem] mb-10 hover:text-blue-900 rounded-md"
+        <div
+          class="border border-3xl p-3 w-auto mb-10 hover:text-blue-900 rounded-md "
           @click="() => TogglePopup('buttonTriggers')"
-        >
-          comment here
-        </button>
-        <Popup
-          v-if="popupTriggers.buttonTriggers"
-          :TogglePopup="() => TogglePopup('buttonTriggers')"
         >
           <h2 class="text-center font-bold">Rate this websit</h2>
 
           <div class="my-5 w-auto flex justify-center">
             <form action="#">
-              <div class=" stars flex gap-10 text-center">
+              <div class="stars flex gap-10 text-center">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
@@ -158,19 +171,43 @@
               </div>
             </form>
           </div>
+        </div>
+        <Popup
+          v-if="popupTriggers.buttonTriggers"
+          :TogglePopup="() => TogglePopup('buttonTriggers')"
+        >
+          <h2 class="text-center font-bold">Rate this websit</h2>
+
+          <div class="my-5 w-auto flex justify-center">
+            <form action="#">
+              <div class="stars flex gap-10 text-center">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </form>
+          </div>
+
           <textarea
             v-model="newReview"
             placeholder=" Write your review here"
-            class="border border-md p-2 "
+            class="border border-md p-2"
           ></textarea>
-          <div class="modal-footer">
+
+          <!-- <div class="modal-footer">
             <button class="btn btn-primary" type="button" @click="handleSubmit">
               Submit
             </button>
-            <button class="btn btn-secondary" type="button" @click="handleCancel">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              @click="handleCancel"
+            >
               Cancel
             </button>
-          </div>
+          </div> -->
         </Popup>
       </div>
     </div>
@@ -182,15 +219,17 @@
 import { ref } from "vue";
 import Popup from "../view_product/PopupViewProduct.vue";
 import { RouterLink } from "vue-router";
+
 const stars = document.querySelectorAll(".stars i");
 stars.forEach((star, index1) => {
-    star.addEventListener("click", () => {
-        stars.forEach((star, index2) => {
-            index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
-        });
+  star.addEventListener("click", () => {
+    stars.forEach((star, index2) => {
+      index1 >= index2
+        ? star.classList.add("active")
+        : star.classList.remove("active");
     });
+  });
 });
-
 
 export default {
   name: "ViewProduct",
@@ -233,7 +272,13 @@ export default {
             productName: "Zip Tote Basket",
           },
         ],
-        colors: ["#17315e", "#fff", "#1e5110", "#08020d"],
+        colors: [
+          { code: "#17315e" },
+          { code: "#fff" },
+          { code: "#1e5110" },
+          { code: "#08020d" },
+        ],
+        sizes: [{ name: "S" }, { name: "M" }, { name: "L" }, { name: "XL" }],
       },
       reviews: [
         {
@@ -250,6 +295,8 @@ export default {
         },
       ],
       newReview: "",
+      activeBtn: "",
+      activeBtnColor: "",
     };
   },
   computed: {
@@ -272,18 +319,19 @@ export default {
     selectImage(index) {
       this.selectedImageIndex = index;
     },
-    selectColor(color) {
-      console.log(`Selected color: ${color}`);
-    },
 
+    setActiveBtn(btn) {
+      this.activeBtn = btn; // Set the currently active button
+      this.activeBtnColor = btncolor;
+    },
 
     handleSubmit() {
       this.submitReview(); // Call the submitReview method
-      this.TogglePopup();  // Close the modal
+      this.TogglePopup(); // Close the modal
     },
     handleCancel() {
       this.deleteReview(); // Call the deleteReview method
-      this.TogglePopup();  // Close the modal
+      this.TogglePopup(); // Close the modal
     },
     submitReview() {
       const author = getUsername();
@@ -299,7 +347,6 @@ export default {
     deleteReview(index) {
       this.reviews.splice(index, 1);
     },
-
   },
   setup() {
     const popupTriggers = ref({
@@ -318,7 +365,6 @@ export default {
     };
   },
 };
-
 </script>
 
 <style scoped>
@@ -383,16 +429,22 @@ textarea {
 .button:hover {
   background-color: #0056b3;
 }
-.stars i.active{
-  color: #FFD43B;
+.stars i.active {
+  color: #ffd43b;
 }
-.stars i{
+.stars i {
   color: #e3dfdf;
   cursor: pointer;
   transition: color 0.2 ease;
 }
-textarea{
+textarea {
   width: 30rem;
-  /* border-radius: 2rem solid green; */
+}
+
+.active {
+  background-color: #d1d2d3;
+}
+.activeColor {
+  border: 3px solid goldenrod;
 }
 </style>
