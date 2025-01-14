@@ -14,7 +14,7 @@ const routes = [
       { path: 'hand-bags', component: () => import('../views/home/products/HandBags.vue') },
       { path: 'Wallets', component: () => import('../views/home/products/Wallets.vue') },
       { path: 'clothes', component: () => import('../views/home/products/Clothes.vue') },
-      { path: 'view-product', component: () => import('../views/home/products/view_product/ViewProduct.vue') },
+      { path: 'view-product/:id', component: () => import('../views/home/products/view_product/ViewProduct.vue') },
     ]
   },
 

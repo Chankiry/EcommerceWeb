@@ -38,7 +38,7 @@
             About Us
           </router-link>
         </li>
-        <li>
+        <li v-if="!isAdmin && isAuthenticated">
           <router-link
             to="/cart"
             class="nav-link relative"
@@ -50,20 +50,22 @@
             </span>
           </router-link>
         </li>
-        <li>
+        <li v-if="!isAdmin && isAuthenticated">
           <router-link
             to="/history"
             class="nav-link"
             :class="{ 'active-link': isActive('/history') }"
+            @click.native="navigateAndReload('/Sales')"
           >
             History
           </router-link>
         </li>
-        <li>
+        <li v-if="isAdmin && isAuthenticated">
           <router-link
             to="/Sales"
             class="nav-link"
             :class="{ 'active-link': isActive('/Sales') }"
+            @click.native="navigateAndReload('/Sales')"
           >
             Sales
           </router-link>
@@ -75,7 +77,7 @@
         class="auth-links flex space-x-6 text-lg font-semibold hidden md:flex"
         :class="{ 'flex flex-col space-y-4 absolute top-16 left-0 bg-black w-full text-center py-4 md:static md:flex-row md:space-y-0 md:space-x-6': isMenuOpen }"
       >
-        <li>
+        <li v-if="isAuthenticated">
           <router-link
             to="/account/profile"
             class="nav-link"
@@ -122,14 +124,25 @@ export default {
   data() {
     return {
       cartItemsCount: 0,
-      isAuthenticated: false,
       isMenuOpen: false,
+      isAuthenticated: !!localStorage.getItem('Token'),
+      isAdmin: localStorage.getItem('role') === 'Admin',
     };
   },
   methods: {
+    navigateAndReload(route) {
+      // Navigate to the specified route
+      this.$router.push(route).then(() => {
+        // Reload the page after navigation is complete
+        window.location.reload();
+      });
+    },
+    isActive(route) {
+      return this.$route.path === route;
+    },
     logout() {
       this.isAuthenticated = false;
-      localStorage.removeItem('user');
+      localStorage.clear();
       this.$router.push('/auth/login');
     },
     isActive(route) {
@@ -137,7 +150,7 @@ export default {
     },
   },
   created() {
-    this.isAuthenticated = !!localStorage.getItem('user');
+    this.isAuthenticated = localStorage.getItem('Token') ? true : false;
   },
 };
 </script>

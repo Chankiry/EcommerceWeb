@@ -14,9 +14,13 @@
             <div role="tabpanel" aria-labelledby="product-image-tab">
               <img
                 alt="Product image"
-                :src="currentImage.url"
+                :src="fileUrl + currentImage.url"
                 class="h-96 w-full object-cover"
+                v-if="currentImage.url" 
               />
+              <div v-else class="h-96 w-full bg-gray-200 flex items-center justify-center">
+                <span>No image available</span>
+              </div>
             </div>
 
             <div class="flex mt-2">
@@ -30,19 +34,23 @@
                 class="flex items-center justify-center mx-2"
               >
                 <img
-                  :src="image.url"
+                  :src="fileUrl + image.url"
                   alt=""
                   class="h-24 w-24 object-cover img-thumbnail"
+                  v-if="image.url" 
                 />
+                <div v-else class="h-24 w-24 bg-gray-200 flex items-center justify-center">
+                  <span>No image</span>
+                </div>
               </button>
             </div>
           </div>
 
           <div class="ml-12 mt-10">
             <h1 class="text-3xl font-bold mb-5">
-              {{ currentImage.productName }}
+              {{ product.name }}
             </h1>
-            <p class="font-bold text-2xl">${{ currentImage.price }}</p>
+            <p class="font-bold text-2xl">${{ product.price }}</p>
 
             <!-- stars -->
             <div class="flex items-center mt-2.5 mb-5">
@@ -64,7 +72,7 @@
               </div>
             </div>
 
-            <p class="my-3">{{ currentImage.productDescription }}</p>
+            <p class="my-3">{{ product.description }}</p>
 
             <!-- color -->
             <form @submit.prevent="addToBag">
@@ -83,7 +91,7 @@
                     type="button"
                     @click="activeBtnColor = color"
                     :class="{ activeColor: activeBtnColor === color }"
-                    :style="{ backgroundColor: color.code }"
+                    :style="{ backgroundColor: color.color }"
                   ></button>
                 </div>
               </div>
@@ -149,7 +157,6 @@
               </h4>
             </div>
             <p>{{ review.content }}</p>
-            <!-- <button @click="deleteReview(index)" class="button">Delete</button> -->
           </div>
         </div>
 
@@ -158,7 +165,7 @@
           class="border border-3xl p-3 w-auto mb-10 hover:text-blue-900 rounded-md "
           @click="() => TogglePopup('buttonTriggers')"
         >
-          <h2 class="text-center font-bold">Rate this websit</h2>
+          <h2 class="text-center font-bold">Rate this website</h2>
 
           <div class="my-5 w-auto flex justify-center">
             <form action="#">
@@ -176,7 +183,7 @@
           v-if="popupTriggers.buttonTriggers"
           :TogglePopup="() => TogglePopup('buttonTriggers')"
         >
-          <h2 class="text-center font-bold">Rate this websit</h2>
+          <h2 class="text-center font-bold">Rate this website</h2>
 
           <div class="my-5 w-auto flex justify-center">
             <form action="#">
@@ -195,19 +202,6 @@
             placeholder=" Write your review here"
             class="border border-md p-2"
           ></textarea>
-
-          <!-- <div class="modal-footer">
-            <button class="btn btn-primary" type="button" @click="handleSubmit">
-              Submit
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-              @click="handleCancel"
-            >
-              Cancel
-            </button>
-          </div> -->
         </Popup>
       </div>
     </div>
@@ -219,17 +213,7 @@
 import { ref } from "vue";
 import Popup from "../view_product/PopupViewProduct.vue";
 import { RouterLink } from "vue-router";
-
-const stars = document.querySelectorAll(".stars i");
-stars.forEach((star, index1) => {
-  star.addEventListener("click", () => {
-    stars.forEach((star, index2) => {
-      index1 >= index2
-        ? star.classList.add("active")
-        : star.classList.remove("active");
-    });
-  });
-});
+import ProductService from '../service';
 
 export default {
   name: "ViewProduct",
@@ -242,43 +226,12 @@ export default {
       count: 1,
       selectedImageIndex: 0,
       product: {
-        productImages: [
-          {
-            url: "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-product-01.jpg",
-            productDescription:
-              "The  Tote Basket is the perfect midpoint between shopping tote and comfy backpack.",
-            price: 140,
-            productName: "Zip Tote Basket",
-          },
-          {
-            url: "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-product-02.jpg",
-            productDescription:
-              "The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack.",
-            price: 130,
-            productName: "Zip Tote Basket",
-          },
-          {
-            url: "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-product-03.jpg",
-            productDescription:
-              "The Zip Tote  is the perfect midpoint between shopping tote and comfy backpack.",
-            price: 150,
-            productName: "Zip Tote Basket",
-          },
-          {
-            url: "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-product-04.jpg",
-            productDescription:
-              "The Zip  Basket is the perfect midpoint between shopping tote and comfy backpack.",
-            price: 180,
-            productName: "Zip Tote Basket",
-          },
-        ],
-        colors: [
-          { code: "#17315e" },
-          { code: "#fff" },
-          { code: "#1e5110" },
-          { code: "#08020d" },
-        ],
-        sizes: [{ name: "S" }, { name: "M" }, { name: "L" }, { name: "XL" }],
+        productImages: [], // Initialize as an empty array
+        colors: [],
+        sizes: [],
+        name: "",
+        price: 0,
+        description: "",
       },
       reviews: [
         {
@@ -297,14 +250,57 @@ export default {
       newReview: "",
       activeBtn: "",
       activeBtnColor: "",
+      loading: true,
+      error: null,
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL, // Add fileUrl here
     };
   },
   computed: {
     currentImage() {
-      return this.product.productImages[this.selectedImageIndex];
+      // Add a fallback for when productImages is empty
+      return this.product.productImages[this.selectedImageIndex] || { url: '', productDescription: '', price: 0, productName: '' };
     },
   },
+  async mounted() {
+    // Access the id from the route parameters
+    this.productId = this.$route.params.id;
+    console.log('Product ID:', this.productId);
+
+    // Fetch product details
+    await this.view(this.productId);
+  },
   methods: {
+    async view(id) {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const response = await ProductService.view(id); // Fetch product details
+        const productData = response.product;
+
+        // Map the API response to the component's data properties
+        this.product = {
+          productImages: [
+            { url: productData.image, productDescription: productData.description, price: productData.price, productName: productData.name },
+            ...(productData.image2 ? [{ url: productData.image2, productDescription: productData.description, price: productData.price, productName: productData.name }] : []),
+            ...(productData.image3 ? [{ url: productData.image3, productDescription: productData.description, price: productData.price, productName: productData.name }] : []),
+            ...(productData.image4 ? [{ url: productData.image4, productDescription: productData.description, price: productData.price, productName: productData.name }] : []),
+          ],
+          colors: response.colors,
+          sizes: response.sizes,
+          name: productData.name,
+          price: productData.price,
+          description: productData.description,
+        };
+
+        console.log('Product Details:', this.product);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+        this.error = 'Failed to load product details. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
     increment() {
       this.count++;
     },
@@ -319,22 +315,19 @@ export default {
     selectImage(index) {
       this.selectedImageIndex = index;
     },
-
     setActiveBtn(btn) {
-      this.activeBtn = btn; // Set the currently active button
-      this.activeBtnColor = btncolor;
+      this.activeBtn = btn;
     },
-
     handleSubmit() {
-      this.submitReview(); // Call the submitReview method
-      this.TogglePopup(); // Close the modal
+      this.submitReview();
+      this.TogglePopup();
     },
     handleCancel() {
-      this.deleteReview(); // Call the deleteReview method
-      this.TogglePopup(); // Close the modal
+      this.deleteReview();
+      this.TogglePopup();
     },
     submitReview() {
-      const author = getUsername();
+      const author = "Anonymous"; // Replace with actual user name if available
       if (this.newReview.trim() !== "") {
         this.reviews.push({
           author,
@@ -351,7 +344,6 @@ export default {
   setup() {
     const popupTriggers = ref({
       buttonTriggers: false,
-      // timedTriggers: false,
     });
 
     const TogglePopup = (trigger) => {

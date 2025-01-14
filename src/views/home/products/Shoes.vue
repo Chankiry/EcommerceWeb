@@ -170,7 +170,7 @@
       class="min-h-screen container grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
       <router-link
-        :to="'view-product'"
+        :to="'view-product/' + shoes.id"
         class="w-auto max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="shoes in shoesItems"
         :key="shoes.id || shoes.image"
@@ -178,7 +178,7 @@
         <a href="#">
           <img
             class="p-3 rounded-t-lg mx-auto"
-            :src="shoes.image"
+            :src="fileUrl + shoes.image"
             alt="product image"
           />
         </a>
@@ -245,21 +245,8 @@
 <script>
 import { ref } from "vue";
 import PopProduct from "../products/view_product/PopupProduct.vue";
-import shoes01 from "../../../assets/images/shoes01.png";
-import shoes02 from "../../../assets/images/shoes02.png";
-import shoes03 from "../../../assets/images/shoes03.png";
-import shoes04 from "../../../assets/images/shoes04.png";
-import shoes05 from "../../../assets/images/shoes05.png";
-import shoes06 from "../../../assets/images/shoes06.png";
-import shoes07 from "../../../assets/images/shoes07.png";
-import shoes08 from "../../../assets/images/shoes08.png";
-import shoes09 from "../../../assets/images/shoes09.png";
-import shoes010 from "../../../assets/images/shoes010.png";
-import shoes011 from "../../../assets/images/shoes011.png";
-import shoes012 from "../../../assets/images/shoes012.png";
-import shoes013 from "../../../assets/images/shoes013.png";
-import shoes014 from "../../../assets/images/shoes014.png";
-import shoes015 from "../../../assets/images/shoes015.png";
+
+import ProductService from './service'; // Import the service with the listing function
 export default {
   name: "Shoes",
   // prope: ["Shoes"],
@@ -268,132 +255,30 @@ export default {
   },  
   data() {
     return {
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
       searchQuery: "",
-      shoes: [
-        {
-          image: shoes01,
-          name: "Jordan Stay Loyal 3",
-          price: null,
-          price_discount: 115,
-          discount: null,
-          id: 1,
-        },
-        {
-          image: shoes02,
-          name: "Jordan Flight Club '91",
-          price: null,
-          price_discount: 145,
-          discount: null,
-          id: 2,
-        },
-        {
-          image: shoes03,
-          name: 'Air Jordan 12 Retro "Phantom"',
-          price: null,
-          price_discount: 200,
-          discount: null,
-          id: 3,
-        },
-        {
-          image: shoes04,
-          name: "Air Jordan 1 Mid",
-          price: "$125",
-          price_discount: 87.97,
-          discount: "30% Off",
-          id: 4,
-        },
-        {
-          image: shoes05,
-          name: "Jumpman MVP",
-          price: "$165",
-          price_discount: 123.97,
-          discount: null,
-          id: 5,
-        },
-        {
-          image: shoes06,
-          name: "Jordan True Flight",
-          price: "$150",
-          price_discount: 90.97,
-          discount: null,
-          id: 6,
-        },
-        {
-          image: shoes07,
-          name: "Air Jordan 1 Mid SE",
-          price: "$135",
-          price_discount: 87.97,
-          discount: "30% Off",
-          id: 7,
-        },
-        {
-          image: shoes08,
-          name: "Air Jordan Legancy 312 Low",
-          price: "$145",
-          price_discount: 87.97,
-          discount: "30% Off",
-          id: 8,
-        },
-        {
-          image: shoes09,
-          name: "Air Jordan 1 Zoom CMFT 2",
-          price: "$150",
-          price_discount: 97.97,
-          discount: "30% Off",
-          id: 9,
-        },
-        {
-          image: shoes010,
-          name: 'Zion 3 "Z-3D"',
-          price: "$150",
-          price_discount: 82.97,
-          discount: null,
-          id: 10,
-        },
-        {
-          image: shoes011,
-          name: "Tatum 3 LNY",
-          price: "$125",
-          price_discount: 90,
-          discount: "30% Off",
-          id: 11,
-        },
-        {
-          image: shoes012,
-          name: "Air Jordan 3 Ratro Black Cat",
-          price: "$250",
-          price_discount: 200,
-          discount: "30% Off",
-          id: 12,
-        },
-        {
-          image: shoes013,
-          name: "Air Jordan 5 Retro White and Black",
-          price: "$250",
-          price_discount: 200,
-          discount: "30% Off",
-          id: 13,
-        },
-        {
-          image: shoes014,
-          name: "Air Jordan 1 Mid",
-          price: "$280",
-          price_discount: 125,
-          discount: "30% Off",
-          id: 14,
-        },
-        {
-          image: shoes015,
-          name: "Air Jordan 1 Zoom CMFT 2",
-          price: "$150",
-          price_discount: 97.97,
-          discount: "30% Off",
-          id: 15,
-        },
-      ],
+      shoes: [],
       companiesVisible: 8,
       step: 8,
     };
+  },
+  async created() {
+    await this.listing();
+  },
+  methods: {
+    async listing() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await ProductService.listing(1); // Pass appropriate dates
+        this.shoes.push(...response.products);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     shoesItems() {

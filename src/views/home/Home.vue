@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col bg-gray-100 -mt-[90px]">
+  <div class="h-full flex flex-col bg-gray-100">
     <!-- Full-space image slider -->
     <div class="slider-container bg-slate-200 h-[800px] w-full flex items-center justify-center">
       <div class="slider" ref="slider">
