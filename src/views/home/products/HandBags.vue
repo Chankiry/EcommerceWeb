@@ -170,7 +170,7 @@
       class="min-h-screen container grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
       <router-link
-        :to="'view-product'"
+        :to="'view-product/' + handBags.id"
         class="w-auto max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="handBags in handbagesItem"
         :key="handBags.image"
@@ -178,7 +178,7 @@
         <a href="#">
           <img
             class="p-3 rounded-t-lg mx-auto"
-            :src="handBags.image"
+            :src="this.fileUrl + handBags.image"
             alt="product image"
           />
         </a>
@@ -244,22 +244,8 @@
 
 <script>
 import PopProduct from "../products/view_product/PopupProduct.vue";
-import handbag01 from "../../../assets/images/handbag01.png";
-import handbag02 from "../../../assets/images/handbag02.png";
-import handbag03 from "../../../assets/images/handbag03.png";
-import handbag04 from "../../../assets/images/handbag04.png";
-import handbag05 from "../../../assets/images/handbag05.png";
-import handbag06 from "../../../assets/images/handbag06.png";
-import handbag07 from "../../../assets/images/handbag07.png";
-import handbag08 from "../../../assets/images/handbag08.png";
-import handbag09 from "../../../assets/images/handbag09.png";
-import handbag010 from "../../../assets/images/handbag010.png";
-import handbag011 from "../../../assets/images/handbag011.png";
-import handbag012 from "../../../assets/images/handbag012.png";
-import handbag013 from "../../../assets/images/handbag013.png";
-import handbag014 from "../../../assets/images/handbag014.png";
-import handbag015 from "../../../assets/images/handbag015.png";
 import { ref, onMounted } from "vue";
+import ProductService from './service';
 
 export default {
   name: "HandBags",
@@ -268,132 +254,30 @@ export default {
   },
   data() {
     return {
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
       searchQuery: "",
-      handBags: [
-        {
-          image: handbag01,
-          name: "Jordan Alpha Camera Bad",
-          price: "$40",
-          price_discount: 30.97,
-          discount: null,
-          id: 1,
-        },
-        {
-          image: handbag02,
-          name: "Nike Sportswear Futura women's Crossbody Bag",
-          price: "$32",
-          price_discount: 25.97,
-          discount: null,
-          id: 2,
-        },
-        {
-          image: handbag03,
-          name: "Nike Sportswar puffle tote bag",
-          price: null,
-          price_discount: 90,
-          discount: "30% Off",
-          id: 3,
-        },
-        {
-          image: handbag04,
-          name: "Jordan Monogram Pouch",
-          price: null,
-          price_discount: 50,
-          discount: "30% Off",
-          id: 4,
-        },
-        {
-          image: handbag05,
-          name: "Nike Sportswear RPM Tote",
-          price: null,
-          price_discount: 90,
-          discount: "30% Off",
-          id: 5,
-        },
-        {
-          image: handbag06,
-          name: "Joordan Rise Crossbody Bag",
-          price: null,
-          price_discount: 30,
-          discount: null,
-          id: 6,
-        },
-        {
-          image: handbag07,
-          name: "Jordan Stadium Bag",
-          price: "$90",
-          price_discount: 35,
-          discount: "30% Off",
-          id: 7,
-        },
-        {
-          image: handbag08,
-          name: "Nike Locker Iridescent Swim Bag",
-          price: null,
-          price_discount: 48,
-          discount: null,
-          id: 8,
-        },
-        {
-          image: handbag09,
-          name: "Nike Sportswear Essentials",
-          price: "$90",
-          price_discount: 76.97,
-          discount: "30% Off",
-          id: 9,
-        },
-        {
-          image: handbag010,
-          name: "Nike Sportswear Faux Fur Tote",
-          price: "$145",
-          price_discount: 82,
-          discount: "30% Off",
-          id: 10,
-        },
-        {
-          image: handbag011,
-          name: "Nike",
-          price: null,
-          price_discount: 32,
-          discount: null,
-          id: 11,
-        },
-        {
-          image: handbag012,
-          name: "Jordan Icon",
-          price: "$110",
-          price_discount: 93.97,
-          discount: "30% Off",
-          id: 12,
-        },
-        {
-          image: handbag013,
-          name: "Jordan Stadium",
-          price: null,
-          price_discount: 35,
-          discount: null,
-          id: 13,
-        },
-        {
-          image: handbag014,
-          name: "Jordan Monogram",
-          price: "$130",
-          price_discount: 100,
-          discount: "30% Off",
-          id: 14,
-        },
-        {
-          image: handbag015,
-          name: "Jordan",
-          price: "$65",
-          price_discount: 55.97,
-          discount: "30% Off",
-          id: 15,
-        },
-      ],
+      handBags: [],
       companiesVisible: 8,
       step: 8,
     };
+  },
+  async created() {
+    await this.listing();
+  },
+  methods: {
+    async listing() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await ProductService.listing(2); // Pass appropriate dates
+        this.handBags.push(...response.products);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     handbagesItem() {

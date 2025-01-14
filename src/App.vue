@@ -2,7 +2,7 @@
   <div>
     <!-- Make Navbar sticky -->
     <Navbar class="sticky-navbar" />
-    <div class="w-full h-[90px]">
+    <div class="w-full h-[60px]">
 
     </div>
     <router-view />

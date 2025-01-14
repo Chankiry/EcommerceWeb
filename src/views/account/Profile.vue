@@ -9,7 +9,7 @@
         <div class="profile-content">
           <!-- Left Section (Image) -->
           <div class="profile-left">
-            <img :src="profileImage" alt="Profile Picture" class="profile-image" />
+            <img :src="avatar" alt="Profile Picture" class="profile-image" />
             <input
               type="file"
               accept="image/*"
@@ -28,7 +28,7 @@
               <div class="info-title">Name:</div>
               <div class="info-item">
                 <i class="fas fa-user"></i>
-                <span>{{ username }}</span>
+                <span>{{ name }}</span>
               </div>
               <div class="info-title">Email:</div>
               <div class="info-item">
@@ -54,8 +54,8 @@
       <div class="modal-content">
         <h2>Edit Profile</h2>
         <div class="form-group">
-          <label for="edit-username">Username:</label>
-          <input id="edit-username" v-model="editedUsername" type="text" />
+          <label for="edit-name">Username:</label>
+          <input id="edit-name" v-model="editedUsername" type="text" />
         </div>
         <div class="form-group">
           <label for="edit-email">Email:</label>
@@ -75,41 +75,105 @@
 </template>
 
 <script>
+import ProfileService from './service';
+
+
 export default {
   data() {
     return {
-      profileImage: "https://via.placeholder.com/150", // Replace with actual profile picture URL
-      username: "Nay Sovannarith",
-      email: "narith2004@gmail.com",
-      phone: "012345678",
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
+      avatar: "https://via.placeholder.com/150", // Default profile image
+      name: "", // Will be populated from localStorage
+      email: "", // Will be populated from localStorage
+      phone: "", // Will be populated from localStorage
       isEditing: false,
       editedUsername: "",
       editedEmail: "",
       editedPhone: "",
     };
   },
+  created() {
+    // Fetch the user object from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Map the user data to component variables
+    if (user) {
+      this.name = user.name || "Nay Sovannarith"; // Fallback to default if name is not available
+      this.email = user.email || "narith2004@gmail.com"; // Fallback to default if email is not available
+      this.phone = user.phone || "012345678"; // Fallback to default if phone is not available
+      this.avatar = this.fileUrl + user.avatar || this.avatar; // Use the avatar from localStorage or fallback to default
+    }
+  },
   methods: {
     openEditModal() {
       this.isEditing = true;
-      this.editedUsername = this.username;
+      this.editedUsername = this.name;
       this.editedEmail = this.email;
       this.editedPhone = this.phone;
     },
     closeEditModal() {
       this.isEditing = false;
     },
-    saveProfile() {
-      this.username = this.editedUsername;
-      this.email = this.editedEmail;
-      this.phone = this.editedPhone;
-      this.closeEditModal();
+    async saveProfile() {
+      try {
+        // Prepare the updated profile data
+        const updatedProfile = {
+          name: this.editedUsername,
+          email: this.editedEmail,
+          phone: this.editedPhone,
+        };
+
+        // Call the updateProfile method from ProfileService
+        const response = await ProfileService.updateProfile(updatedProfile);
+        const token = response.data.access_token;
+        const user = response.data.user;
+
+        // Store token, role, and user in localStorage
+        localStorage.setItem('Token', token);
+        localStorage.setItem('user', JSON.stringify(user)); // Store user as a JSON string
+
+        // Update the component data
+        this.avatar = this.fileUrl + user.avatar;
+        this.name  = user.name;
+        this.email = user.email;
+        this.phone = user.phone;
+
+        this.closeEditModal();
+        alert('Profile updated successfully!');
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+        alert('Failed to update profile. Please try again.');
+      }
     },
-    handleImageUpload(event) {
+    async handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          this.profileImage = e.target.result;
+        reader.onload = async (e) => {
+          // Convert the image to Base64
+          const base64Image = e.target.result;
+
+          // Update the avatar in the component
+          this.avatar = base64Image;
+
+          try {
+            // Call the updateProfile method from ProfileService to upload the image
+            const response = await ProfileService.updateProfile({ name: this.name, email: this.email, phone: this.phone ,avatar: base64Image });
+            const token = response.data.access_token;
+            const user = response.data.user;
+
+            // Store token, role, and user in localStorage
+            localStorage.setItem('Token', token);
+            localStorage.setItem('user', JSON.stringify(user)); // Store user as a JSON string
+            // Update the component data
+            this.avatar = this.fileUrl + user.avatar;
+            this.name  = user.name;
+            this.email = user.email;
+            this.phone = user.phone;
+          } catch (error) {
+            console.error('Failed to update profile image:', error);
+            alert('Failed to update profile image. Please try again.');
+          }
         };
         reader.readAsDataURL(file);
       }

@@ -171,7 +171,7 @@
       class="min-h-screen grid pt-[0rem] container grid-cols-4 items-center justify-center bg-gray-100"
     >
       <router-link
-        :to="'view-product'"
+        :to="'view-product/' + wallet.id"
         class="w-auto max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="wallet in WalletItem"
         :key="wallet.image"
@@ -179,7 +179,7 @@
         <a href="#">
           <img
             class="p-3 rounded-t-lg mx-auto"
-            :src="wallet.image"
+            :src="this.fileUrl + wallet.image"
             alt="product image"
           />
         </a>
@@ -245,22 +245,8 @@
 
 <script>
 import PopProduct from "../products/view_product/PopupProduct.vue";
-import wallet01 from "../../../assets/images/wallet01.png";
-import wallet02 from "../../../assets/images/wallet02.png";
-import wallet03 from "../../../assets/images/wallet03.png";
-import wallet04 from "../../../assets/images/wallet04.png";
-import wallet05 from "../../../assets/images/wallet05.png";
-import wallet06 from "../../../assets/images/wallet06.png";
-import wallet07 from "../../../assets/images/wallet07.png";
-import wallet08 from "../../../assets/images/wallet08.png";
-import wallet09 from "../../../assets/images/wallet09.png";
-import wallet010 from "../../../assets/images/wallet010.png";
-import wallet011 from "../../../assets/images/wallet011.png";
-import wallet012 from "../../../assets/images/wallet012.png";
-import wallet013 from "../../../assets/images/wallet013.png";
-import wallet014 from "../../../assets/images/wallet014.png";
 import { ref, onMounted } from "vue";
-
+import ProductService from './service';
 export default {
   name: "wallet",
   // prope: ["Clothes"],
@@ -269,124 +255,30 @@ export default {
   },
   data() {
     return {
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
       searchQuery: "",
-      wallet: [
-        {
-          image: wallet01,
-          name: "Jordan Men's Flight Zip Wallet",
-          price: null,
-          price_discount: 40,
-          discount: null,
-          id: 1,
-        },
-        {
-          image: wallet02,
-          name: "Nike Icon Blazer Wristlet",
-          price: "$32",
-          price_discount: 23.97,
-          discount: null,
-          id: 2,
-        },
-        {
-          image: wallet03,
-          name: "Jordan Men's Flight Card Case",
-          price: "$70",
-          price_discount: 25,
-          discount: "30% Off",
-          id: 3,
-        },
-        {
-          image: wallet04,
-          name: "Nike Icon Air Max 90 Card Wallet",
-          price: "$85",
-          price_discount: 30,
-          discount: "30% Off",
-          id: 4,
-        },
-        {
-          image: wallet05,
-          name: "Jordan Men's Flight Trifold Wallet",
-          price: null,
-          price_discount: 35,
-          discount: "30% Off",
-          id: 5,
-        },
-        {
-          image: wallet06,
-          name: "Nike Icon Air Max 1 '84 Card Wallet",
-          price: "$90",
-          price_discount: 35,
-          discount: null,
-          id: 6,
-        },
-        {
-          image: wallet07,
-          name: "Jordan Men's Flight Zip Wallet",
-          price: "$90",
-          price_discount: 40,
-          discount: "30% Off",
-          id: 7,
-        },
-        {
-          image: wallet08,
-          name: "Jordan Men's Flight Trifold Wallet",
-          price: null,
-          price_discount: 35,
-          discount: null,
-          id: 8,
-        },
-        {
-          image: wallet09,
-          name: "Nike Icon Cortez Wristlet",
-          price: "$70",
-          price_discount: 26.97,
-          discount: "30% Off",
-          id: 9,
-        },
-        {
-          image: wallet010,
-          name: "Nike Icon Air Force 1 Card Wallet",
-          price: "$75",
-          price_discount: 20.97,
-          discount: "30% Off",
-          id: 10,
-        },
-        {
-          image: wallet011,
-          name: "Nike Icon Blazer",
-          price: null,
-          price_discount: 40,
-          discount: null,
-          id: 11,
-        },
-        {
-          image: wallet012,
-          name: "jordan Airborne",
-          price: "$60",
-          price_discount: 32,
-          discount: "30% Off",
-          id: 12,
-        },
-        {
-          image: wallet013,
-          name: "Jordan",
-          price: "$75",
-          price_discount: 20.97,
-          discount: "30% Off",
-          id: 13,
-        },
-        {
-          image: wallet014,
-          name: "Nike",
-          price: "$75",
-          price_discount: 24,
-          discount: "30% Off",
-          id: 14,
-        },
-      ],
+      wallet: [],
       companiesVisible: 8,
       step: 8,
     };
+  },
+  async created() {
+    await this.listing();
+  },
+  methods: {
+    async listing() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await ProductService.listing(3); // Pass appropriate dates
+        this.wallet.push(...response.products);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     WalletItem() {

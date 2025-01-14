@@ -170,7 +170,7 @@
       class="min-h-screen container grid pt-[0rem] grid-cols-4 items-center justify-center bg-gray-100"
     >
       <router-link
-        :to="'view-product'"
+        :to="'view-product/' + clothes.id"
         class="w-auto max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-white card grid"
         v-for="clothes in clothesItems"
         :key="clothes.id || clothes.image"
@@ -178,7 +178,7 @@
         <a href="#">
           <img
             class="p-3 rounded-t-lg mx-auto"
-            :src="clothes.image"
+            :src="this.fileUrl + clothes.image"
             alt="product image"
           />
         </a>
@@ -244,22 +244,8 @@
 
 <script>
 import PopProduct from "../products/view_product/PopupProduct.vue";
-import clothes01 from "../../../assets/images/cloth01.png";
-import clothes02 from "../../../assets/images/cloth02.png";
-import clothes03 from "../../../assets/images/cloth03.png";
-import clothes04 from "../../../assets/images/cloth04.png";
-import clothes05 from "../../../assets/images/cloth05.png";
-import clothes06 from "../../../assets/images/cloth06.png";
-import clothes07 from "../../../assets/images/cloth07.png";
-import clothes08 from "../../../assets/images/cloth08.png";
-import clothes09 from "../../../assets/images/cloth09.png";
-import clothes010 from "../../../assets/images/cloth010.png";
-import clothes011 from "../../../assets/images/clothes011.png";
-import clothes012 from "../../../assets/images/clothes012.png";
-import clothes013 from "../../../assets/images/clothes013.png";
-import clothes014 from "../../../assets/images/clothes014.png";
-import clothes015 from "../../../assets/images/clothes015.png";
 import { ref, onMounted } from "vue";
+import ProductService from './service';
 
 export default {
   name: "Clothes",
@@ -268,132 +254,30 @@ export default {
   },
   data() {
     return {
+      fileUrl: import.meta.env.VITE_FILE_BASE_URL,
       searchQuery: "",
-      clothes: [
-        {
-          image: clothes01,
-          name: "Jordan X Travis Scott",
-          price: null,
-          price_discount: 175,
-          discount: null,
-          id: 1,
-        },
-        {
-          image: clothes02,
-          name: "Jodan X Travis Scott",
-          price: null,
-          price_discount: 65,
-          discount: null,
-          id: 2,
-        },
-        {
-          image: clothes03,
-          name: "Nike ACG Lungs",
-          price: null,
-          price_discount: 115,
-          discount: null,
-          id: 3,
-        },
-        {
-          image: clothes04,
-          name: "Texas Longhorns",
-          price: null,
-          price_discount: 130,
-          discount: null,
-          id: 4,
-        },
-        {
-          image: clothes05,
-          name: "Duke blue devils Staement workmark Lockup Heavyweight",
-          price: null,
-          price_discount: 123.97,
-          discount: null,
-          id: 5,
-        },
-        {
-          image: clothes06,
-          name: "Nike Smiley Swoosh Printed Tricot Set",
-          price: "$55",
-          price_discount: 37.97,
-          discount: "30% Off",
-          id: 6,
-        },
-        {
-          image: clothes07,
-          name: "Nike Sportwear Everything Wovens",
-          price: "$90",
-          price_discount: 76.97,
-          discount: "30% Off",
-          id: 7,
-        },
-        {
-          image: clothes08,
-          name: "Nike Sportswear Essentials",
-          price: "$90",
-          price_discount: 62.97,
-          discount: null,
-          id: 8,
-        },
-        {
-          image: clothes09,
-          name: "Nike Windrunner",
-          price: "$90",
-          price_discount: 76.97,
-          discount: "30% Off",
-          id: 9,
-        },
-        {
-          image: clothes010,
-          name: "Nike Tech Reimagined",
-          price: "$145",
-          price_discount: 122.97,
-          discount: null,
-          id: 10,
-        },
-        {
-          image: clothes011,
-          name: "Nike Sportswear Phoenix Fleece",
-          price: "$55",
-          price_discount: 37.97,
-          discount: "30% Off",
-          id: 11,
-        },
-        {
-          image: clothes012,
-          name: "Nike Solo Swoosh",
-          price: "$40",
-          price_discount: 22.97,
-          discount: "30% Off",
-          id: 12,
-        },
-        {
-          image: clothes013,
-          name: "Nike Sportswear",
-          price: "$50",
-          price_discount: 42.97,
-          discount: "30% Off",
-          id: 13,
-        },
-        {
-          image: clothes014,
-          name: "Nike ACG",
-          price: "$50",
-          price_discount: 37.97,
-          discount: "30% Off",
-          id: 14,
-        },
-        {
-          image: clothes015,
-          name: "Nike Sportswear Phoenix Plush",
-          price: "$85",
-          price_discount: 72.97,
-          discount: "40% Off",
-          id: 15,
-        },
-      ],
+      clothes: [],
       companiesVisible: 8,
       step: 8,
     };
+  },
+  async created() {
+    await this.listing();
+  },
+  methods: {
+    async listing() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await ProductService.listing(4); // Pass appropriate dates
+        this.clothes.push(...response.products);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        this.error = 'Failed to load order history. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     clothesItems(){
