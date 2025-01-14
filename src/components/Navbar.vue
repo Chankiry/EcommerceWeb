@@ -59,6 +59,15 @@
             History
           </router-link>
         </li>
+        <li>
+          <router-link
+            to="/Sales"
+            class="nav-link"
+            :class="{ 'active-link': isActive('/Sales') }"
+          >
+            Sales
+          </router-link>
+        </li>
       </ul>
 
       <!-- Authentication Links -->

@@ -437,7 +437,7 @@ textarea {
   cursor: pointer;
   transition: color 0.2 ease;
 }
-textarea {
+.textarea {
   width: 30rem;
 }
 

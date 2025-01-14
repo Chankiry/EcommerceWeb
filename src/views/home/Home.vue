@@ -22,13 +22,6 @@
       <SideNav />
       <div class="flex-1 flex flex-col items-center justify-center">
         <router-view />
-        <!-- Button to Admin Page -->
-        <router-link
-          to="/admin"
-          class="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
-        >
-          Go to Admin Page
-        </router-link>
       </div>
 
     </div>
@@ -72,7 +65,6 @@ export default {
   position: relative;
   display: flex;
 }
-
 .slider {
   display: flex;
   transition: transform 0.5s ease-in-out;
@@ -82,28 +74,10 @@ export default {
 .image-wrapper {
   flex: 0 0 100%; /* Each image takes 100% of the width */
 }
-
 .slide-image {
   width: 100%;
   height: 800px;
 }
-
-.admin-btn {
-  background-color: #f9a825;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease-in-out;
-}
-
-.admin-btn:hover {
-  background-color: #e68a00;
-}
-
 .fixed {
   position: fixed;
 }
