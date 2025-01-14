@@ -162,6 +162,7 @@
                     <div
                       class="flex items-center font-medium space-x-4 rtl:space-x-reverse"
                     >
+
                       <div class="flex-1 min-w-0">
                         <div class="flex">
                           <p
@@ -302,8 +303,6 @@
 
 <script>
 import { reactive } from "vue";
-import image from "../../assets/images/1.png";
-import image1 from "../../assets/images/2.png";
 
 const form = reactive({
   fullName: "",
