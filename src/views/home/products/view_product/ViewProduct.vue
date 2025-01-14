@@ -182,8 +182,6 @@
 import { ref } from "vue";
 import Popup from "../view_product/PopupViewProduct.vue";
 import { RouterLink } from "vue-router";
-
-
 const stars = document.querySelectorAll(".stars i");
 stars.forEach((star, index1) => {
     star.addEventListener("click", () => {

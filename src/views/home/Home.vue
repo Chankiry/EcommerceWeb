@@ -12,7 +12,7 @@
         <div class="image-wrapper">
           <img src="@/assets/wallet2.jpg" alt="Cloth background" class="slide-image" />
         </div>
-       <div class="image-wrapper">
+        <div class="image-wrapper">
           <img src="@/assets/prodescr.jpg" alt="Cloth background" class="slide-image" />
         </div>  
       </div>
@@ -20,8 +20,15 @@
 
     <div class="w-full h-full flex">
       <SideNav />
-      <div class="flex-1 flex items-center justify-center">
+      <div class="flex-1 flex flex-col items-center justify-center">
         <router-view />
+        <!-- Button to Admin Page -->
+        <router-link
+          to="/admin"
+          class="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
+        >
+          Go to Admin Page
+        </router-link>
       </div>
     </div>
   </div>
@@ -47,7 +54,7 @@ export default {
     startAutoSlide() {
       setInterval(() => {
         const slider = this.$refs.slider;
-        this.currentIndex = (this.currentIndex + 1) % 4; // Cycle through 3 images
+        this.currentIndex = (this.currentIndex + 1) % 4; // Cycle through 4 images
         const translateValue = -this.currentIndex * 100; // Move slider by 100% per image
         slider.style.transform = `translateX(${translateValue}%)`;
       }, 3000); // Slide every 3 seconds
@@ -68,7 +75,7 @@ export default {
 .slider {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  width: 300%; /* 3 images */
+  width: 400%; /* 4 images */
 }
 
 .image-wrapper {
@@ -79,5 +86,24 @@ export default {
   width: 100%;
   height: 800px;
 }
+
+.admin-btn {
+  background-color: #f9a825;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.admin-btn:hover {
+  background-color: #e68a00;
+}
+
+.fixed {
+  position: fixed;
+}
 </style>
-x
